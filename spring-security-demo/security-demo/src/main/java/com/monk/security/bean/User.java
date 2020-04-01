@@ -1,4 +1,4 @@
-package com.monk.bean;
+package com.monk.security.bean;
 
 public class User {
 

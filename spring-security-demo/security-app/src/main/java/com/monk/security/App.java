@@ -1,4 +1,4 @@
-package com.monk;
+package com.monk.security;
 
 /**
  * Hello world!
