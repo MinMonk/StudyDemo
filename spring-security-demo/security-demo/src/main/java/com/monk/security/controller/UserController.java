@@ -1,6 +1,8 @@
 package com.monk.security.controller;
 
 import com.monk.security.bean.User;
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -25,18 +27,21 @@ public class UserController {
         return users;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id:\\d+}")
     public User getUser(@PathVariable Long id) {
         User user = new User();
         user.setId(1L);
         user.setUserName("jack");
         user.setAge(18);
+        logger.info(ReflectionToStringBuilder.toString(user, ToStringStyle.MULTI_LINE_STYLE));
         return user;
     }
 
     @PostMapping
-    public void createUser(User user){
+    public User createUser(User user){
         logger.info("创建的用户信息为：{}", user);
+        user.setId(1L);
+        return user;
     }
 
     @PutMapping
@@ -44,7 +49,7 @@ public class UserController {
         logger.info("更新后的用户信息为：{}", user);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id:\\d+}")
     public void deleteUser(@PathVariable Long id){
         logger.info("删除了ID为{}的用户", id);
     }
