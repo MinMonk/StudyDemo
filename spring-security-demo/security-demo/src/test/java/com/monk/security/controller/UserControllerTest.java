@@ -43,6 +43,21 @@ public class UserControllerTest {
     }
 
     @Test
+    public void whenGetInfoSuccess() throws Exception {
+        String result = mockMvc.perform(MockMvcRequestBuilders.get("/user/1").contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value("1"))
+                .andReturn().getResponse().getContentAsString();
+        System.out.println(result);
+    }
+
+    @Test
+    public void whenGetInfoFailed() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/user/a").contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError());
+    }
+
+    @Test
     public void whenCreateSuccess() throws Exception {
         String result = mockMvc.perform(MockMvcRequestBuilders.post("/user").contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -55,6 +70,14 @@ public class UserControllerTest {
     @Test
     public void whenDeleteSuccess() throws Exception{
         mockMvc.perform(MockMvcRequestBuilders.delete("/user/1").contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    public void whenUpdateSuccess() throws Exception{
+        String jsonStr = "{\"id\":\"1\", \"name\":\"jack\",\"age\":18}";
+        mockMvc.perform(MockMvcRequestBuilders.put("/user/1")
+                .contentType(MediaType.APPLICATION_JSON_UTF8).content(jsonStr))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 }

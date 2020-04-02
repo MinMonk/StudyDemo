@@ -1,13 +1,22 @@
 package com.monk.security.bean;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 public class User {
 
+    public interface UserSimpleView {};
+    public interface UserDetailView extends UserSimpleView {};
+
+    @JsonView(UserSimpleView.class)
     private Long id;
 
+    @JsonView(UserSimpleView.class)
     private String userName;
 
+    @JsonView(UserDetailView.class)
     private String password;
 
+    @JsonView(UserSimpleView.class)
     private int age;
 
     @Override

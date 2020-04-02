@@ -1,5 +1,6 @@
 package com.monk.security.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.monk.security.bean.User;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
@@ -17,6 +18,7 @@ public class UserController {
     private final static Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @GetMapping
+    @JsonView(User.UserSimpleView.class)
     public List<User> queryAllUser(User user) {
 
         List<User> users = new ArrayList<>();
@@ -28,7 +30,8 @@ public class UserController {
     }
 
     @GetMapping("/{id:\\d+}")
-    public User getUser(@PathVariable Long id) {
+    @JsonView(User.UserDetailView.class)
+    public User getUser(@PathVariable String id) {
         User user = new User();
         user.setId(1L);
         user.setUserName("jack");
@@ -38,14 +41,14 @@ public class UserController {
     }
 
     @PostMapping
-    public User createUser(User user){
+    public User createUser(@RequestBody User user){
         logger.info("创建的用户信息为：{}", user);
         user.setId(1L);
         return user;
     }
 
-    @PutMapping
-    public void updateUser(User user){
+    @PutMapping("/{id:\\d+}")
+    public void updateUser(@RequestBody User user){
         logger.info("更新后的用户信息为：{}", user);
     }
 
