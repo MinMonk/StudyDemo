@@ -1,6 +1,7 @@
 package com.monk.security.controller;
 
 import com.monk.security.bean.User;
+import com.monk.security.exception.UserNotExistException;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.slf4j.Logger;
@@ -28,13 +29,18 @@ public class UserController {
     }
 
     @GetMapping("/{id:\\d+}")
+    @ResponseBody
     public User getUser(@PathVariable Long id) {
-        User user = new User();
-        user.setId(1L);
-        user.setUserName("jack");
-        user.setAge(18);
-        logger.info(ReflectionToStringBuilder.toString(user, ToStringStyle.MULTI_LINE_STYLE));
-        return user;
+        if(Long.valueOf(id) > 100){
+            throw new UserNotExistException(1L);
+        }else{
+            User user = new User();
+            user.setId(1L);
+            user.setUserName("jack");
+            user.setAge(18);
+            logger.info(ReflectionToStringBuilder.toString(user, ToStringStyle.MULTI_LINE_STYLE));
+            return user;
+        }
     }
 
     @PostMapping
