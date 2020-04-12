@@ -1,32 +1,22 @@
 package com.monk.security.config;
 
 import com.monk.security.filter.CustomFilter;
-import com.monk.security.interceptor.CustomInterceptor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import com.monk.security.interceptor.CustomTimeoutCallableProcessingInterceptor;
+import org.springframework.boot.web.server.ErrorPageRegistrar;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.web.servlet.config.annotation.AsyncSupportConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
-@EnableAutoConfiguration(exclude = {SecurityAutoConfiguration.class})
 public class WebConfig implements WebMvcConfigurer {
 
-    /*// 使用autowired自动注入也可以
-    @Autowired
-    private CustomFilter customFilter;*/
-
-//    @Autowired
-//    private CustomInterceptor customInterceptor;
-
-    @Bean
+//    @Bean
     public FilterRegistrationBean registrationFilter(){
         FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
 
@@ -40,9 +30,28 @@ public class WebConfig implements WebMvcConfigurer {
         return filterRegistrationBean;
     }
 
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//        CustomInterceptor customInterceptor = new CustomInterceptor();
+//        registry.addInterceptor(customInterceptor);
+//    }
+
+
     @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        CustomInterceptor customInterceptor = new CustomInterceptor();
-        registry.addInterceptor(customInterceptor);
+    public void configureAsyncSupport(final AsyncSupportConfigurer configurer) {
+        configurer.setDefaultTimeout(60 * 1000L);
+        configurer.registerCallableInterceptors(new CustomTimeoutCallableProcessingInterceptor());
+
+        configurer.setTaskExecutor(threadPoolTaskExecutor());
+    }
+
+    @Bean
+    public ThreadPoolTaskExecutor threadPoolTaskExecutor() {
+        ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
+        threadPoolTaskExecutor.setCorePoolSize(10);
+        threadPoolTaskExecutor.setMaxPoolSize(100);
+        threadPoolTaskExecutor.setQueueCapacity(20);
+        threadPoolTaskExecutor.setThreadNamePrefix("Child-Thread-");
+        return threadPoolTaskExecutor;
     }
 }

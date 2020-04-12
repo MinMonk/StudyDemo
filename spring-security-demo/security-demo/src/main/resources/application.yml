@@ -1,2 +1,19 @@
 server:
   port: 8080
+
+
+monk:
+  security:
+    validateCode:
+      imageCode:
+        length: 6
+        width: 100
+        urls: /order,/user/*
+#    web:
+#      loginPage: /custom/cus-login.html
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.94.200:3306/monk_security_demo?useUnicode=yes&characterEncoding=UTF-8&useSSL=false
+    username: root
+    password: 123456

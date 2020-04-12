@@ -3,7 +3,6 @@ package com.monk.security.interceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -17,9 +16,10 @@ public class CustomInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String className = ((HandlerMethod)handler).getBean().getClass().getName();
-        String methodName = ((HandlerMethod) handler).getMethod().getName();
-        logger.info("into custom interceptor preHandle method, and execute the real class is {}, the method is {}", className, methodName);
+        /*String className = ((HandlerMethod)handler).getBean().getClass().getName();
+        String methodName = ((HandlerMethod)handler).getMethod().getName();
+        logger.info("into custom interceptor preHandle method, and execute the real class is {}, the method is {}", className, methodName);*/
+        logger.info("into custom interceptor preHandle method");
         request.setAttribute("name", "tom and jerry");
         request.setAttribute("startTime", System.currentTimeMillis());
         return true;
