@@ -55,9 +55,11 @@ public class UserControllerTest {
 
     @Test
     public void whenCreateSuccess() throws Exception {
-        String result = mockMvc.perform(MockMvcRequestBuilders.post("/user").contentType(MediaType.APPLICATION_JSON_UTF8))
+        String jsonStr = "{\"id\":\"1\", \"name\":\"jack\",\"age\":18}";
+        String result = mockMvc.perform(MockMvcRequestBuilders.post("/user")
+                .contentType(MediaType.APPLICATION_JSON_UTF8).content(jsonStr))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value("1"))
+                        .andExpect(MockMvcResultMatchers.jsonPath("$.id").value("1"))
                 .andReturn().getResponse().getContentAsString();
         System.out.println(result);
 
