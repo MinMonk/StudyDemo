@@ -1,7 +1,7 @@
 package com.monk.security.code;
 
-import com.monk.security.validate.bean.ImageCode;
-import com.monk.security.validate.CodeGenerator;
+import com.monk.security.validate.processor.image.ImageCode;
+import com.monk.security.validate.generator.CodeGenerator;
 import org.springframework.web.context.request.ServletWebRequest;
 
 /**

@@ -1,5 +1,7 @@
 server:
   port: 8080
+#  servlet:
+#    context-path: /demo
 
 
 monk:
@@ -10,7 +12,7 @@ monk:
         width: 100
         urls: /order,/user/*
 #    web:
-#      loginPage: /custom/cus-login.html
+#      loginPage: /cus-login.html
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver

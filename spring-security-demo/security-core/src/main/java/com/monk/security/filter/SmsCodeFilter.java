@@ -1,7 +1,7 @@
 package com.monk.security.filter;
 
 import com.monk.security.constant.SecurityConstant;
-import com.monk.security.exception.ValidateCodeException;
+import com.monk.security.filter.exception.ValidateCodeException;
 import com.monk.security.propertites.SecurityProperties;
 import com.monk.security.validate.bean.ValidateCode;
 import org.apache.commons.lang.StringUtils;
@@ -61,7 +61,7 @@ public class SmsCodeFilter extends OncePerRequestFilter implements InitializingB
         for (String url : configUrls) {
             urls.add(url);
         }
-        urls.add(SecurityConstant.MOBILE_LOGIN_PROCESSING_URL_FORM);
+        urls.add(SecurityConstant.DEFAULT_MOBILE_LOGIN_PROCESSING_URL_FORM);
     }
 
     @Override

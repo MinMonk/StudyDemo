@@ -31,7 +31,7 @@ public class SecurityConstant {
     /**
      * 手机短信验证方式登录请求处理url
      */
-    public static final String MOBILE_LOGIN_PROCESSING_URL_FORM = "/authentication/mobile";
+    public static final String DEFAULT_MOBILE_LOGIN_PROCESSING_URL_FORM = "/authentication/mobile";
 
     /**
      * 验证图片验证码时，HTTP请求中默认的携带图片验证码信息的参数名称

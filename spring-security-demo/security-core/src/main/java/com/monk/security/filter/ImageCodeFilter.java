@@ -1,9 +1,9 @@
 package com.monk.security.filter;
 
 import com.monk.security.constant.SecurityConstant;
-import com.monk.security.exception.ValidateCodeException;
+import com.monk.security.filter.exception.ValidateCodeException;
 import com.monk.security.propertites.SecurityProperties;
-import com.monk.security.validate.bean.ImageCode;
+import com.monk.security.validate.processor.image.ImageCode;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

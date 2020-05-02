@@ -14,7 +14,7 @@ public class SecurityProperties {
 
     private AppProperties app = new AppProperties();
 
-    private WebProperties web = new WebProperties();
+    private BrowserProperties browser = new BrowserProperties();
 
     private ValidateCodeProperties validateCode = new ValidateCodeProperties();
 
@@ -34,11 +34,11 @@ public class SecurityProperties {
         this.app = app;
     }
 
-    public WebProperties getWeb() {
-        return web;
+    public BrowserProperties getBrowser() {
+        return browser;
     }
 
-    public void setWeb(WebProperties web) {
-        this.web = web;
+    public void setBrowser(BrowserProperties browser) {
+        this.browser = browser;
     }
 }
