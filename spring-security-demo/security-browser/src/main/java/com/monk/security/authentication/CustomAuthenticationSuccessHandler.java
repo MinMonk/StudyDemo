@@ -23,7 +23,7 @@ import java.io.IOException;
  * @Date 2020/4/6
  * @Version V1.0
  **/
-@Component
+@Component("customAuthenticationSuccessHandler")
 public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final static Logger logger = LoggerFactory.getLogger(CustomAuthenticationSuccessHandler.class);

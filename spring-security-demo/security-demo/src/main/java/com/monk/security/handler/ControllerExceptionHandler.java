@@ -1,6 +1,6 @@
 package com.monk.security.handler;
 
-import com.monk.security.filter.exception.UserNotExistException;
+import com.monk.security.exception.UserNotExistException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

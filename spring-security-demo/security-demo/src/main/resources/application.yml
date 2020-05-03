@@ -11,6 +11,8 @@ monk:
         length: 6
         width: 100
         urls: /order,/user/*
+      smsCode:
+        urls: /order,/user/*
 #    web:
 #      loginPage: /cus-login.html
 spring:

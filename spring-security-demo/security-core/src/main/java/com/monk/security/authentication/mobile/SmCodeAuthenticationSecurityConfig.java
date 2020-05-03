@@ -1,7 +1,6 @@
 package com.monk.security.authentication.mobile;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,16 +9,17 @@ import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.stereotype.Component;
 
 
-@Configuration
+@Component
 public class SmCodeAuthenticationSecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
 
     @Autowired
-    protected AuthenticationSuccessHandler authenticationSuccessHandler;
+    protected AuthenticationSuccessHandler customAuthenticationFailedHandler;
 
     @Autowired
-    protected AuthenticationFailureHandler authenticationFailureHandler;
+    protected AuthenticationFailureHandler customAuthenticationSuccessHandler;
 
     @Autowired
     protected UserDetailsService userDetailsService;
@@ -27,8 +27,8 @@ public class SmCodeAuthenticationSecurityConfig extends SecurityConfigurerAdapte
     @Override
     public void configure(HttpSecurity http) throws Exception {
         SmsCodeAuthenticationFilter smsCodeAuthenticationFilter = new SmsCodeAuthenticationFilter();
-        smsCodeAuthenticationFilter.setAuthenticationSuccessHandler(authenticationSuccessHandler);
-        smsCodeAuthenticationFilter.setAuthenticationFailureHandler(authenticationFailureHandler);
+        smsCodeAuthenticationFilter.setAuthenticationSuccessHandler(customAuthenticationFailedHandler);
+        smsCodeAuthenticationFilter.setAuthenticationFailureHandler(customAuthenticationSuccessHandler);
         smsCodeAuthenticationFilter.setAuthenticationManager(http.getSharedObject(AuthenticationManager.class));
 
         SmsCodeAuthenticationProvider smsCodeAuthenticationProvider = new SmsCodeAuthenticationProvider();

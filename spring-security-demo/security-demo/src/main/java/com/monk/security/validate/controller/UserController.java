@@ -2,7 +2,7 @@ package com.monk.security.validate.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.monk.security.bean.User;
-import com.monk.security.filter.exception.UserNotExistException;
+import com.monk.security.exception.UserNotExistException;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.slf4j.Logger;

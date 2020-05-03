@@ -1,8 +1,8 @@
 package com.monk.security.validate.processor.sms;
 
+import com.monk.security.validate.bean.ValidateCode;
 import com.monk.security.validate.processor.impl.AbstractValidateCodeProcessor;
 import com.monk.security.validate.processor.sms.service.SmsCodeSender;
-import com.monk.security.validate.bean.ValidateCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.ServletRequestUtils;
@@ -15,7 +15,7 @@ import org.springframework.web.context.request.ServletWebRequest;
  * @Date 2020/4/12
  * @Version V1.0
  **/
-@Component
+@Component("smsValidateCodeProcessor")
 public class SmsValidateCodeProcessor extends AbstractValidateCodeProcessor<ValidateCode> {
 
     @Autowired

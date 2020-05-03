@@ -1,4 +1,4 @@
-package com.monk.security.filter.exception;
+package com.monk.security.exception;
 
 import org.springframework.security.core.AuthenticationException;
 
@@ -10,9 +10,9 @@ import org.springframework.security.core.AuthenticationException;
  * @Date 2020/4/6
  * @Version V1.0
  **/
-public class ValidateCodeException extends AuthenticationException {
+public class CustomValidateCodeException extends AuthenticationException {
 
-    public ValidateCodeException(String msg){
+    public CustomValidateCodeException(String msg){
         super(msg);
     }
 }

@@ -22,4 +22,14 @@ public interface ValidateCodeProcessor {
      * @Date: 2020/4/12 12:29
      */
     void createCode(ServletWebRequest request) throws Exception;
+
+    /*
+     * 功能描述: <br>
+     * 〈校验验证码〉
+     * @Param: [request]
+     * @Return: void
+     * @Author: Monk
+     * @Date: 2020/5/3 1:52
+     */
+    void validateCode(ServletWebRequest request);
 }

@@ -1,4 +1,4 @@
-package com.monk.security.filter.exception;
+package com.monk.security.exception;
 
 /**
  * @ClassName UserNotExistException
