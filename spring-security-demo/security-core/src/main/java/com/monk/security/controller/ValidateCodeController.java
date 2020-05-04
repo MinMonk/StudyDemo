@@ -1,4 +1,4 @@
-package com.monk.security.validate.controller;
+package com.monk.security.controller;
 
 import com.monk.security.validate.processor.ValidateCodeProcessor;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -2,7 +2,7 @@ package com.monk.security.validate.processor.sms;
 
 import com.monk.security.validate.bean.ValidateCode;
 import com.monk.security.validate.processor.impl.AbstractValidateCodeProcessor;
-import com.monk.security.validate.processor.sms.service.SmsCodeSender;
+import com.monk.security.common.SmsCodeSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.ServletRequestUtils;

@@ -1,4 +1,4 @@
-package com.monk.security.validate.controller;
+package com.monk.security.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

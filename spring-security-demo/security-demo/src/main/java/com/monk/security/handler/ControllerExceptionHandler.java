@@ -1,6 +1,6 @@
 package com.monk.security.handler;
 
-import com.monk.security.exception.UserNotExistException;
+import com.monk.security.exception.CustomUserNotExistException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -20,10 +20,10 @@ import java.util.Map;
 @ControllerAdvice
 public class ControllerExceptionHandler {
 
-    @ExceptionHandler(UserNotExistException.class)
+    @ExceptionHandler(CustomUserNotExistException.class)
     @ResponseBody
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public Map<String, Object> handlerUserNotExistException(UserNotExistException ex) {
+    public Map<String, Object> handlerUserNotExistException(CustomUserNotExistException ex) {
         Map<String, Object> result = new HashMap<String, Object>(2);
         result.put("userId", ex.getUserId());
         result.put("message", ex.getMessage());

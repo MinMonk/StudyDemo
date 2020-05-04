@@ -1,10 +1,10 @@
 package com.monk.security.config;
 
 import com.monk.security.propertites.SecurityProperties;
-import com.monk.security.validate.processor.sms.service.SmsCodeSender;
+import com.monk.security.common.SmsCodeSender;
 import com.monk.security.validate.generator.impl.ImageCodeGenerator;
 import com.monk.security.validate.generator.CodeGenerator;
-import com.monk.security.validate.processor.sms.service.impl.DefaultSmsCodeSender;
+import com.monk.security.common.impl.DefaultSmsCodeSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

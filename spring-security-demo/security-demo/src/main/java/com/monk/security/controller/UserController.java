@@ -1,18 +1,22 @@
-package com.monk.security.validate.controller;
+package com.monk.security.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.monk.security.bean.User;
-import com.monk.security.exception.UserNotExistException;
+import com.monk.security.exception.CustomUserNotExistException;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.ServletWebRequest;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +29,15 @@ public class UserController {
 
     private final static Logger logger = LoggerFactory.getLogger(UserController.class);
 
+    @Autowired
+    private ProviderSignInUtils providerSignInUtils;
+
+    @PostMapping("/register")
+    public void registerUser(User user, HttpServletRequest request){
+        String userName = user.getUserName();
+        providerSignInUtils.doPostSignUp(userName, new ServletWebRequest(request));
+
+    }
 
     @GetMapping("/me")
     public Object getCurrUserInfo(@AuthenticationPrincipal UserDetails userDetails){
@@ -58,7 +71,7 @@ public class UserController {
     public User getUser(@PathVariable Long id) {
         Long userId = Long.valueOf(id);
         if (userId > 100 && userId < 200) {
-            throw new UserNotExistException(1L);
+            throw new CustomUserNotExistException(1L);
         } else if(userId >= 200){
             throw new NullPointerException("-------");
         }else {

@@ -1,4 +1,4 @@
-package com.monk.security.validate.controller;
+package com.monk.security.controller;
 
 import org.junit.Before;
 import org.junit.Test;

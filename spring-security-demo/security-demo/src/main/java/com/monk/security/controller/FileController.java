@@ -1,4 +1,4 @@
-package com.monk.security.validate.controller;
+package com.monk.security.controller;
 
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.slf4j.Logger;

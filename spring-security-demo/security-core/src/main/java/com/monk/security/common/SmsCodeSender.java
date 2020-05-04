@@ -1,4 +1,4 @@
-package com.monk.security.validate.processor.sms.service;
+package com.monk.security.common;
 
 /**
  * @author Monk

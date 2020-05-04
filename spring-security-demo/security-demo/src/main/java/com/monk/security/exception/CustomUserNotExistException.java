@@ -7,11 +7,11 @@ package com.monk.security.exception;
  * @Date 2020/4/5
  * @Version V1.0
  **/
-public class UserNotExistException extends RuntimeException {
+public class CustomUserNotExistException extends RuntimeException {
 
     private Long userId;
 
-    public UserNotExistException(Long userid){
+    public CustomUserNotExistException(Long userid){
         super("user is not exist");
         this.userId = userid;
     }

@@ -1,6 +1,6 @@
-package com.monk.security.validate.processor.sms.service.impl;
+package com.monk.security.common.impl;
 
-import com.monk.security.validate.processor.sms.service.SmsCodeSender;
+import com.monk.security.common.SmsCodeSender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -4,23 +4,19 @@ import com.monk.security.authentication.AbstractChannelSecurityConfig;
 import com.monk.security.authentication.CustomAuthenticationFailedHandler;
 import com.monk.security.authentication.CustomAuthenticationSuccessHandler;
 import com.monk.security.authentication.mobile.SmCodeAuthenticationSecurityConfig;
+import com.monk.security.authentication.validatecode.ValidateCodeSecurityConfig;
 import com.monk.security.constant.SecurityConstant;
 import com.monk.security.propertites.SecurityProperties;
-import com.monk.security.authentication.validatecode.ValidateCodeSecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.web.server.ErrorPage;
-import org.springframework.boot.web.server.ErrorPageRegistrar;
-import org.springframework.boot.web.server.ErrorPageRegistry;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.social.security.SpringSocialConfigurer;
 
 import javax.sql.DataSource;
 
@@ -48,6 +44,9 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig{
 
     @Autowired
     private SmCodeAuthenticationSecurityConfig smCodeAuthenticationSecurityConfig;
+
+    @Autowired
+    private SpringSocialConfigurer customSocialSecurityConfig;
 
     @Autowired
     private CustomAuthenticationFailedHandler failedHandler;
@@ -84,6 +83,8 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig{
                 .and()
             .apply(smCodeAuthenticationSecurityConfig)
                 .and()
+            .apply(customSocialSecurityConfig)
+                .and()
             .rememberMe()
                 .tokenRepository(persistentTokenRepository())
                 .tokenValiditySeconds(securityProperties.getBrowser().getRememberedSeconds())
@@ -95,7 +96,9 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig{
                     SecurityConstant.DEFAULT_MOBILE_LOGIN_PROCESSING_URL_FORM,
                     "/favicon.ico",
                     SecurityConstant.DEFAULT_VALIDATE_CODE_URL_PREFIX + "/*",
-                    securityProperties.getBrowser().getLoginPage())
+                    securityProperties.getBrowser().getLoginPage(),
+                    securityProperties.getBrowser().getRegisterPage(),
+                    SecurityConstant.DEFAULT_REGISTER_URL)
                 .permitAll()
             .anyRequest()
             .authenticated()

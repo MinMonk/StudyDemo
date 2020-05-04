@@ -22,7 +22,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <spring.platform.version>Cairo-SR8</spring.platform.version>
+        <spring.platform.version>Brussels-SR4</spring.platform.version>
         <spring.cloud.version>Hoxton.SR3</spring.cloud.version>
         <custom.security.version>1.0-SNAPSHOT</custom.security.version>
     </properties>

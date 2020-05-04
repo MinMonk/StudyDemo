@@ -14,7 +14,7 @@ public class BrowserProperties {
 
     private String loginPage = SecurityConstant.DEFAULT_LOGIN_PAGE;
 
-    private String signUpUrl = "/imooc-signUp.html";
+    private String registerPage = SecurityConstant.DEFAULT_REGISTER_PAGE;
 
     private LoginResponseType loginType = LoginResponseType.JSON;
 
@@ -28,12 +28,12 @@ public class BrowserProperties {
         this.rememberedSeconds = rememberedSeconds;
     }
 
-    public String getSignUpUrl() {
-        return signUpUrl;
+    public String getRegisterPage() {
+        return registerPage;
     }
 
-    public void setSignUpUrl(String signUpUrl) {
-        this.signUpUrl = signUpUrl;
+    public void setRegisterPage(String registerPage) {
+        this.registerPage = registerPage;
     }
 
     public String getLoginPage() {
