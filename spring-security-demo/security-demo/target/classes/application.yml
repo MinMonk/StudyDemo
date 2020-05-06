@@ -13,8 +13,18 @@ monk:
         urls: /order,/user/*
       smsCode:
         urls: /order,/user/*
-#    web:
+    browser:
 #      loginPage: /cus-login.html
+      registerPage: /cus-register.html
+    social:
+      processesUrl: /qqLogin
+      qq:
+        app-id:
+        app-secret:
+        providerId: callback.do
+      wechat:
+        app-id:
+        app-secret:
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver

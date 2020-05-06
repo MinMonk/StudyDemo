@@ -13,6 +13,8 @@ public class SocialProperties {
 
     private QQProperties qq = new QQProperties();
 
+    private WeChatProperties wechat = new WeChatProperties();
+
     public String getProcessesUrl() {
         return processesUrl;
     }
@@ -27,5 +29,13 @@ public class SocialProperties {
 
     public void setQq(QQProperties qq) {
         this.qq = qq;
+    }
+
+    public WeChatProperties getWechat() {
+        return wechat;
+    }
+
+    public void setWechat(WeChatProperties wechat) {
+        this.wechat = wechat;
     }
 }

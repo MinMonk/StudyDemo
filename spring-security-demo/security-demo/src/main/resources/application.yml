@@ -22,6 +22,9 @@ monk:
         app-id:
         app-secret:
         providerId: callback.do
+      wechat:
+        app-id:
+        app-secret:
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver

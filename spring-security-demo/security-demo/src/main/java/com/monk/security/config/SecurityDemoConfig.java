@@ -2,19 +2,18 @@ package com.monk.security.config;
 
 import com.monk.security.filter.CustomFilter;
 import com.monk.security.interceptor.CustomTimeoutCallableProcessingInterceptor;
-import org.springframework.boot.web.server.ErrorPageRegistrar;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.servlet.config.annotation.AsyncSupportConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
-public class SecurityDemoConfig implements WebMvcConfigurer {
+public class SecurityDemoConfig extends WebMvcConfigurerAdapter {
 
 //    @Bean
     public FilterRegistrationBean registrationFilter(){

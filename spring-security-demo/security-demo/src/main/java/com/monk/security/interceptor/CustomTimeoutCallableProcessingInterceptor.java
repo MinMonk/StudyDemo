@@ -20,8 +20,28 @@ public class CustomTimeoutCallableProcessingInterceptor implements CallableProce
     public static final Logger logger = LoggerFactory.getLogger(CustomTimeoutCallableProcessingInterceptor.class);
 
     @Override
+    public <T> void beforeConcurrentHandling(NativeWebRequest nativeWebRequest, Callable<T> callable) throws Exception {
+
+    }
+
+    @Override
+    public <T> void preProcess(NativeWebRequest nativeWebRequest, Callable<T> callable) throws Exception {
+
+    }
+
+    @Override
+    public <T> void postProcess(NativeWebRequest nativeWebRequest, Callable<T> callable, Object o) throws Exception {
+
+    }
+
+    @Override
     public <T> Object handleTimeout(NativeWebRequest request, Callable<T> task) throws Exception {
         logger.info("toime out ----");
         return new TimeoutCallableProcessingInterceptor();
+    }
+
+    @Override
+    public <T> void afterCompletion(NativeWebRequest nativeWebRequest, Callable<T> callable) throws Exception {
+
     }
 }

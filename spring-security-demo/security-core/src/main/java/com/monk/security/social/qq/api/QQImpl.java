@@ -58,8 +58,8 @@ public class QQImpl extends AbstractOAuth2ApiBinding implements QQ {
             userInfo.setOpenId(openId);
             return userInfo;
         } catch (IOException e) {
-           logger.error("Format userInfo failed.", e);
-           throw new RuntimeException("Format userInfo failed.", e);
+           logger.error("Format QQ userInfo failed.", e);
+           throw new RuntimeException("Format QQ userInfo failed.", e);
         }
     }
 }
