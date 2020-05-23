@@ -55,6 +55,11 @@ public class SecurityConstant {
     public static final String DEFAULT_REGISTER_URL = "/user/register";
 
     /**
+     * Session失效跳转页面地址
+     */
+    public static final String SESSION_INVALID_URL = "/session/invalid";
+
+    /**
      * 验证图片验证码时，HTTP请求中默认的携带图片验证码信息的参数名称
      */
     public static final String DEFAULT_PARAMETER_NAME_IMAGE_CODE = "imageCode";

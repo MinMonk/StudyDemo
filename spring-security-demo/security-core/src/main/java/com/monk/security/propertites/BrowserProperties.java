@@ -20,6 +20,8 @@ public class BrowserProperties {
 
     private int rememberedSeconds = 3600;
 
+    private SessionProperties session = new SessionProperties();
+
     public int getRememberedSeconds() {
         return rememberedSeconds;
     }
@@ -50,5 +52,13 @@ public class BrowserProperties {
 
     public void setLoginType(LoginResponseType loginType) {
         this.loginType = loginType;
+    }
+
+    public SessionProperties getSession() {
+        return session;
+    }
+
+    public void setSession(SessionProperties session) {
+        this.session = session;
     }
 }

@@ -7,6 +7,7 @@ import com.monk.security.authentication.mobile.SmCodeAuthenticationSecurityConfi
 import com.monk.security.authentication.validatecode.ValidateCodeSecurityConfig;
 import com.monk.security.constant.SecurityConstant;
 import com.monk.security.propertites.SecurityProperties;
+import com.monk.security.session.MonkCustomSessionExpiredStategry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +17,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.web.session.InvalidSessionStrategy;
+import org.springframework.security.web.session.SessionInformationExpiredStrategy;
 import org.springframework.social.security.SpringSocialConfigurer;
 
 import javax.sql.DataSource;
@@ -53,6 +56,13 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig{
 
     @Autowired
     private CustomAuthenticationSuccessHandler successHandler;
+
+    @Autowired
+    private InvalidSessionStrategy invalidSessionStrategy;
+
+    @Autowired
+    private SessionInformationExpiredStrategy informationExpiredStrategy;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -90,6 +100,14 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig{
                 .tokenValiditySeconds(securityProperties.getBrowser().getRememberedSeconds())
                 .userDetailsService(userDetailsService)
                 .and()
+            .sessionManagement()
+                .invalidSessionStrategy(invalidSessionStrategy)
+                .invalidSessionUrl(securityProperties.getBrowser().getSession().getInvalidSessionUrl())
+                .maximumSessions(securityProperties.getBrowser().getSession().getMaximumSessions())
+                .maxSessionsPreventsLogin(securityProperties.getBrowser().getSession().getMaxSessionsPreventsLogin())
+                .expiredSessionStrategy(informationExpiredStrategy)
+                .and()
+                .and()
             .authorizeRequests()
             .antMatchers(
                     SecurityConstant.DEFAULT_UN_AUTHENTICATION_URL,
@@ -98,7 +116,9 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig{
                     SecurityConstant.DEFAULT_VALIDATE_CODE_URL_PREFIX + "/*",
                     securityProperties.getBrowser().getLoginPage(),
                     securityProperties.getBrowser().getRegisterPage(),
-                    SecurityConstant.DEFAULT_REGISTER_URL)
+                    SecurityConstant.DEFAULT_REGISTER_URL,
+                    securityProperties.getBrowser().getSession().getInvalidSessionUrl() + ".json",
+                    securityProperties.getBrowser().getSession().getInvalidSessionUrl() + ".html")
                 .permitAll()
             .anyRequest()
             .authenticated()

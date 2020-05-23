@@ -1,0 +1,38 @@
+package com.monk.security.config;
+
+import com.monk.security.propertites.SecurityProperties;
+import com.monk.security.session.MonkCustomSessionExpiredStategry;
+import com.monk.security.session.MonkCustomSessionInvalidStrategy;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.web.session.InvalidSessionStrategy;
+import org.springframework.security.web.session.SessionInformationExpiredStrategy;
+
+/**
+ * @ClassName BrowserSecurityConfigBean
+ * @Description: TODO
+ * @Author Monk
+ * @Date 2020/5/17
+ * @Version V1.0
+ **/
+@Configuration
+public class BrowserSecurityConfigBean {
+
+    @Autowired
+    private SecurityProperties securityProperties;
+
+    @Bean
+    @ConditionalOnMissingBean(InvalidSessionStrategy.class)
+    public InvalidSessionStrategy invalidSessionStrategy(){
+        return new MonkCustomSessionInvalidStrategy(securityProperties.getBrowser().getSession().getInvalidSessionUrl());
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(SessionInformationExpiredStrategy.class)
+    public SessionInformationExpiredStrategy sessionInformationExpiredStrategy(){
+        return new MonkCustomSessionExpiredStategry(securityProperties.getBrowser().getSession().getInvalidSessionUrl());
+    }
+
+}
