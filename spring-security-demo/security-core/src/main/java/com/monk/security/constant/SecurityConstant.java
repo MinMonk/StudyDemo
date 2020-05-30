@@ -25,6 +25,16 @@ public class SecurityConstant {
     public static final String DEFAULT_LOGIN_PAGE = "/default-login.html";
 
     /**
+     * 退出请求地址
+     */
+    public static final String DEFAULT_SIGNOUT_URL = "/signOut";
+
+    /**
+     * 默认退出页面
+     */
+    public static final String DEFAULT_SIGNOUT_PAGE = "/default-signOut.html";
+
+    /**
      * 默认注册页面
      */
     public static final String DEFAULT_REGISTER_PAGE = "/default-register.html";

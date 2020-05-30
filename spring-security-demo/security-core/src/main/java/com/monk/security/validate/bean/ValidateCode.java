@@ -1,5 +1,6 @@
 package com.monk.security.validate.bean;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -9,7 +10,9 @@ import java.time.LocalDateTime;
  * @Date 2020/4/12
  * @Version V1.0
  **/
-public class ValidateCode {
+public class ValidateCode implements Serializable {
+
+    private static final long serialVersionUID = -2893283545069157139L;
 
     private String code;
 

@@ -14,6 +14,8 @@ public class BrowserProperties {
 
     private String loginPage = SecurityConstant.DEFAULT_LOGIN_PAGE;
 
+    private String signOutPage;
+
     private String registerPage = SecurityConstant.DEFAULT_REGISTER_PAGE;
 
     private LoginResponseType loginType = LoginResponseType.JSON;
@@ -44,6 +46,14 @@ public class BrowserProperties {
 
     public void setLoginPage(String loginPage) {
         this.loginPage = loginPage;
+    }
+
+    public String getSignOutPage() {
+        return signOutPage;
+    }
+
+    public void setSignOutPage(String signOutPage) {
+        this.signOutPage = signOutPage;
     }
 
     public LoginResponseType getLoginType() {
