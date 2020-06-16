@@ -38,3 +38,9 @@ spring:
     host: 192.168.94.200
     port: 6379
     password: redis
+
+security:
+  oauth2:
+    client:
+      client-id: monkDemo
+      client-secret: monkSecret

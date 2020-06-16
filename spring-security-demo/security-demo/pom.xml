@@ -15,9 +15,14 @@
   <url>http://www.example.com</url>
 
   <dependencies>
-    <dependency>
+    <!--<dependency>
       <groupId>com.monk</groupId>
       <artifactId>security-browser</artifactId>
+      <version>${custom.security.version}</version>
+    </dependency>-->
+    <dependency>
+      <groupId>com.monk</groupId>
+      <artifactId>security-app</artifactId>
       <version>${custom.security.version}</version>
     </dependency>
     <dependency>
