@@ -30,12 +30,12 @@ public class CustomUserDetailsServiceImpl implements UserDetailsService, SocialU
 
     private SocialUserDetails buildUser(String user) {
         String pwd = passwordEncoder.encode("123456");
-        return new SocialUser(user, pwd, AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));
+        return new SocialUser(user, pwd, true, true, true, true, AuthorityUtils.commaSeparatedStringToAuthorityList("admin,ROLE_USER"));
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        logger.info("表单登录的用户名：", username);
+        logger.info("表单登录的用户名：{}", username);
         username = StringUtils.isBlank(username) ? "tom" : username;
         return buildUser(username);
     }
