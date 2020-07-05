@@ -57,7 +57,7 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         String header = request.getHeader("Authorization");
 
         if (header == null || !header.startsWith("Basic ")) {
-            throw new UnapprovedClientAuthenticationException("请求头中午Client信息");
+            throw new UnapprovedClientAuthenticationException("请求头中无Client信息");
         }
 
         String[] tokens = extractAndDecodeHeader(header, request);

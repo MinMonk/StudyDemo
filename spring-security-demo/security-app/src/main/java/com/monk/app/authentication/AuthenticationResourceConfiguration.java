@@ -1,6 +1,7 @@
 package com.monk.app.authentication;
 
 import com.monk.app.authentication.mobile.SmCodeAuthenticationSecurityConfig;
+import com.monk.app.authentication.validatecode.ValidateCodeSecurityConfig;
 import com.monk.app.constant.SecurityConstant;
 import com.monk.app.propertites.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 public class AuthenticationResourceConfiguration extends ResourceServerConfigurerAdapter {
 
     @Autowired
+    private ValidateCodeSecurityConfig validateCodeSecurityConfig;
+
+    @Autowired
     protected AuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
     @Autowired
@@ -43,8 +47,8 @@ public class AuthenticationResourceConfiguration extends ResourceServerConfigure
                 .successHandler(customAuthenticationSuccessHandler)
                 .failureHandler(customAuthenticationFailedHandler);
 
-        http//.apply(validateCodeSecurityConfig)
-                //    .and()
+        http.apply(validateCodeSecurityConfig)
+                    .and()
                 .apply(smCodeAuthenticationSecurityConfig)
                 .and()
                 .authorizeRequests()

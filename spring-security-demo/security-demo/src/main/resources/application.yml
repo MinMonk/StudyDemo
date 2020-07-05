@@ -14,6 +14,7 @@ monk:
         urls: /order,/user/*
       smsCode:
         urls: /order,/user/*
+        expireIn: 60000
     browser:
 #      loginPage: /cus-login.html
       registerPage: /cus-register.html
@@ -26,6 +27,16 @@ monk:
       wechat:
         app-id:
         app-secret:
+    oauth2:
+      jwtSignKey: monk
+      storeType: jwt
+      clients:
+        - cliendtId: monkDemo
+          clientSecret: monkSecret
+          accessTokenValiditySeconds: 1800
+        - cliendtId: test
+          clientSecret: test
+
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
@@ -39,8 +50,3 @@ spring:
     port: 6379
     password: redis
 
-security:
-  oauth2:
-    client:
-      client-id: monkDemo
-      client-secret: monkSecret

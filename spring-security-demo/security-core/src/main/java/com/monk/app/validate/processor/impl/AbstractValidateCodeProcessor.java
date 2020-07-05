@@ -6,6 +6,7 @@ import com.monk.app.validate.processor.ValidateCodeProcessor;
 import com.monk.app.validate.generator.CodeGenerator;
 import com.monk.app.validate.bean.ValidateCode;
 import com.monk.app.validate.bean.ValidateCodeType;
+import com.monk.app.validate.processor.ValidateCodeRepository;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.connect.web.HttpSessionSessionStrategy;
@@ -32,6 +33,9 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
      */
     @Autowired
     private Map<String, CodeGenerator> validateCodeGenerators;
+
+    @Autowired
+    private ValidateCodeRepository validateCodeRepository;
 
     @Override
     public void createCode(ServletWebRequest request) throws Exception {
@@ -96,7 +100,8 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
      */
     private void save(ServletWebRequest request, C validateCode) {
         ValidateCode code = new ValidateCode(validateCode.getCode(), validateCode.getExpireTime());
-        sessionStrategy.setAttribute(request, getSessionKey(request), code);
+        //sessionStrategy.setAttribute(request, getSessionKey(request), code);
+        validateCodeRepository.saveCode(request, code, getValidateCodeType(request));
     }
 
     /**
@@ -114,15 +119,14 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
 
     @Override
     public void validateCode(ServletWebRequest request) {
-        ValidateCodeType processorType = getValidateCodeType(request);
-        String sessionKey = getSessionKey(request);
+        ValidateCodeType validateCodeType = getValidateCodeType(request);
 
-        C codeInSession = (C) sessionStrategy.getAttribute(request, sessionKey);
+        ValidateCode codeInSession = validateCodeRepository.getCode(request, validateCodeType);
 
         String codeInRequest;
         try {
             codeInRequest = ServletRequestUtils.getStringParameter(request.getRequest(),
-                    processorType.getParamNameOnValidate());
+                    validateCodeType.getParamNameOnValidate());
         } catch (ServletRequestBindingException e) {
             throw new CustomValidateCodeException("获取验证码的值失败");
         }
@@ -140,6 +144,7 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
         if (!StringUtils.equalsIgnoreCase(codeInSession.getCode(), codeInRequest)) {
             throw new CustomValidateCodeException("验证码不匹配");
         }
-        sessionStrategy.removeAttribute(request, SecurityConstant.SESSION_SMS_CODE_KEY);
+        //sessionStrategy.removeAttribute(request, SecurityConstant.SESSION_SMS_CODE_KEY);
+        validateCodeRepository.removeCode(request, validateCodeType);
     }
 }

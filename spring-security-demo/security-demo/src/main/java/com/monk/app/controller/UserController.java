@@ -3,6 +3,10 @@ package com.monk.app.controller;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.monk.app.bean.User;
 import com.monk.app.exception.CustomUserNotExistException;
+import com.monk.app.propertites.SecurityProperties;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.slf4j.Logger;
@@ -32,6 +36,9 @@ public class UserController {
     @Autowired
     private ProviderSignInUtils providerSignInUtils;
 
+    @Autowired
+    private SecurityProperties securityProperties;
+
     @PostMapping("/register")
     public void registerUser(User user, HttpServletRequest request){
         String userName = user.getUserName();
@@ -40,8 +47,18 @@ public class UserController {
     }
 
     @GetMapping("/me")
-    public Object getCurrUserInfo(@AuthenticationPrincipal UserDetails userDetails){
-        return SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public Object getCurrUserInfo(Authentication authentication, HttpServletRequest request) throws Exception{
+
+        String authorization = request.getHeader("Authorization");
+        String token = StringUtils.substringAfter(authorization, "Bearer ");
+
+        Claims claims = Jwts.parser().setSigningKey(securityProperties.getOauth2().getJwtSignKey().getBytes("UTF-8"))
+                .parseClaimsJws(token).getBody();
+
+        String enhancerBy = (String) claims.get("enhancer by");
+        logger.info("enhanceBy-->{}", enhancerBy);
+
+        return authentication;
     }
 
     @GetMapping("me1")
