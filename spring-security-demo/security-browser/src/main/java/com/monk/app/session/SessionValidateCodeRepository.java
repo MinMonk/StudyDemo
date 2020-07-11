@@ -25,21 +25,7 @@ public class SessionValidateCodeRepository implements ValidateCodeRepository {
 
     @Override
     public void saveCode(ServletWebRequest request, ValidateCode validateCode, ValidateCodeType validateCodeType) {
-        sessionStrategy.setAttribute(request, getSessionKey(request), validateCode);
-    }
-
-    /**
-     * 功能描述: <br>
-     * 〈根据url中的参数获取校验码的类型〉
-     *
-     * @Param: [request]
-     * @Return: com.monk.security.validate.bean.ValidateCodeType
-     * @Author: Monk
-     * @Date: 2020/4/12 11:56
-     */
-    private ValidateCodeType getValidateCodeType(ServletWebRequest request) {
-        String type = StringUtils.substringBefore(getClass().getSimpleName(), "ValidateCodeProcessor");
-        return ValidateCodeType.valueOf(type.toUpperCase());
+        sessionStrategy.setAttribute(request, getSessionKey(request, validateCodeType), validateCode);
     }
 
     /**
@@ -51,19 +37,19 @@ public class SessionValidateCodeRepository implements ValidateCodeRepository {
      * @Author: Monk
      * @Date: 2020/4/12 12:16
      */
-    private String getSessionKey(ServletWebRequest request) {
-        return SESSION_KEY_PREFIX + getValidateCodeType(request).toString().toUpperCase();
+    private String getSessionKey(ServletWebRequest request, ValidateCodeType validateCodeType) {
+        return SESSION_KEY_PREFIX + validateCodeType.toString().toUpperCase();
     }
 
     @Override
     public ValidateCode getCode(ServletWebRequest request, ValidateCodeType validateCodeType) {
-        String sessionKey = getSessionKey(request);
+        String sessionKey = getSessionKey(request, validateCodeType);
         return (ValidateCode) sessionStrategy.getAttribute(request, sessionKey);
     }
 
     @Override
     public void removeCode(ServletWebRequest request, ValidateCodeType validateCodeType) {
-        String sessionKey = getSessionKey(request);
+        String sessionKey = getSessionKey(request, validateCodeType);
         sessionStrategy.removeAttribute(request, sessionKey);
     }
 }

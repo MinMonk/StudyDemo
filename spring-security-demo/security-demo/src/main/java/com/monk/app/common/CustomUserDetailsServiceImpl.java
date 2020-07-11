@@ -30,7 +30,9 @@ public class CustomUserDetailsServiceImpl implements UserDetailsService, SocialU
 
     private SocialUserDetails buildUser(String user) {
         String pwd = passwordEncoder.encode("123456");
-        return new SocialUser(user, pwd, true, true, true, true, AuthorityUtils.commaSeparatedStringToAuthorityList("admin,ROLE_USER"));
+        return new SocialUser(user, pwd,
+                true, true, true, true,
+                AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_admin, ROLE_USER"));
     }
 
     @Override

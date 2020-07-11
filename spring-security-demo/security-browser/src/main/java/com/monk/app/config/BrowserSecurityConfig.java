@@ -5,6 +5,7 @@ import com.monk.app.authentication.CustomAuthenticationFailedHandler;
 import com.monk.app.authentication.CustomAuthenticationSuccessHandler;
 import com.monk.app.authentication.mobile.SmCodeAuthenticationSecurityConfig;
 import com.monk.app.authentication.validatecode.ValidateCodeSecurityConfig;
+import com.monk.app.authorize.AuthorizeProviderManager;
 import com.monk.app.constant.SecurityConstant;
 import com.monk.app.propertites.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +67,9 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig{
     @Autowired
     private LogoutSuccessHandler logoutSuccessHandler;
 
+    @Autowired
+    private AuthorizeProviderManager authorizeProviderManager;
+
     @Bean
     public PersistentTokenRepository persistentTokenRepository() {
         JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
@@ -109,23 +113,10 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig{
             .logout()
                 .logoutUrl(SecurityConstant.DEFAULT_SIGNOUT_URL)
                 .logoutSuccessHandler(logoutSuccessHandler)
-                .and()
-            .authorizeRequests()
-            .antMatchers(
-                    SecurityConstant.DEFAULT_UN_AUTHENTICATION_URL,
-                    SecurityConstant.DEFAULT_MOBILE_LOGIN_PROCESSING_URL_FORM,
-                    "/favicon.ico",
-                    SecurityConstant.DEFAULT_VALIDATE_CODE_URL_PREFIX + "/*",
-                    securityProperties.getBrowser().getLoginPage(),
-                    securityProperties.getBrowser().getRegisterPage(),
-                    SecurityConstant.DEFAULT_REGISTER_URL,
-                    SecurityConstant.DEFAULT_SIGNOUT_URL,
-                    securityProperties.getBrowser().getSession().getInvalidSessionUrl() + ".json",
-                    securityProperties.getBrowser().getSession().getInvalidSessionUrl() + ".html")
-                .permitAll()
-            .anyRequest()
-            .authenticated()
+                .deleteCookies("JSESSIONID")
                 .and()
             .csrf().disable();
+
+        authorizeProviderManager.config(http.authorizeRequests());
     }
 }

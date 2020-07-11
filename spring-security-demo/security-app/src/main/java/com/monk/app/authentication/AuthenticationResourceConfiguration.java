@@ -2,6 +2,7 @@ package com.monk.app.authentication;
 
 import com.monk.app.authentication.mobile.SmCodeAuthenticationSecurityConfig;
 import com.monk.app.authentication.validatecode.ValidateCodeSecurityConfig;
+import com.monk.app.authorize.AuthorizeProviderManager;
 import com.monk.app.constant.SecurityConstant;
 import com.monk.app.propertites.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,9 @@ public class AuthenticationResourceConfiguration extends ResourceServerConfigure
     @Autowired
     private SecurityProperties securityProperties;
 
+    @Autowired
+    private AuthorizeProviderManager authorizeProviderManager;
+
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
@@ -52,21 +56,9 @@ public class AuthenticationResourceConfiguration extends ResourceServerConfigure
                 .apply(smCodeAuthenticationSecurityConfig)
                 .and()
                 .authorizeRequests()
-                .antMatchers(
-                        SecurityConstant.DEFAULT_UN_AUTHENTICATION_URL,
-                        SecurityConstant.DEFAULT_MOBILE_LOGIN_PROCESSING_URL_FORM,
-                        "/favicon.ico",
-                        SecurityConstant.DEFAULT_VALIDATE_CODE_URL_PREFIX + "/*",
-                        securityProperties.getBrowser().getLoginPage(),
-                        securityProperties.getBrowser().getRegisterPage(),
-                        SecurityConstant.DEFAULT_REGISTER_URL,
-                        SecurityConstant.DEFAULT_SIGNOUT_URL,
-                        securityProperties.getBrowser().getSession().getInvalidSessionUrl() + ".json",
-                        securityProperties.getBrowser().getSession().getInvalidSessionUrl() + ".html")
-                .permitAll()
-                .anyRequest()
-                .authenticated()
                 .and()
                 .csrf().disable();
+
+        authorizeProviderManager.config(http.authorizeRequests());
     }
 }
