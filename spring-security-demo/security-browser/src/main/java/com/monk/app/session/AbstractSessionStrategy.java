@@ -1,6 +1,7 @@
 package com.monk.app.session;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.monk.app.support.SimpleResponse;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

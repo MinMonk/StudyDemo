@@ -1,6 +1,7 @@
 package com.monk.app.controller;
 
 import com.monk.app.propertites.SecurityProperties;
+import com.monk.app.support.SimpleResponse;
 import com.monk.app.support.SocialUserInfo;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
