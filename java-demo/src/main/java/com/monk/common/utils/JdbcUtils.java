@@ -6,6 +6,8 @@
  */
 package com.monk.common.utils;
 
+import java.io.BufferedReader;
+import java.io.Reader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -17,6 +19,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import oracle.sql.BLOB;
+import oracle.sql.CLOB;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -136,6 +140,44 @@ public class JdbcUtils {
             throw e;
         } finally {
             closeConnection(conn);
+        }
+    }
+
+    /**
+     * Clob转string
+     *
+     * @param value
+     * @return
+     * @throws Exception
+     */
+    public static String transClobToString(CLOB value) throws Exception {
+        if (value != null) {
+            Reader is = value.getCharacterStream();// 得到流
+            BufferedReader br = new BufferedReader(is);
+            String s = br.readLine();
+            StringBuffer sb = new StringBuffer();
+            while (s != null) {// 执行循环将字符串全部取出付值给StringBuffer由StringBuffer转成STRING
+                sb.append(s);
+                s = br.readLine();
+            }
+            return sb.toString();
+        } else {
+            return "";
+        }
+    }
+
+    /**
+     * Blob转string
+     *
+     * @param value
+     * @return
+     * @throws Exception
+     */
+    public static String transBlobToString(BLOB value) throws Exception {
+        if (value != null) {
+            return new String(value.getBytes(1, (int) value.length()));
+        } else {
+            return "";
         }
     }
     
