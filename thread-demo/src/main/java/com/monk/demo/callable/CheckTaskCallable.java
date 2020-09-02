@@ -1,13 +1,13 @@
-package com.monk.demo;
+package com.monk.demo.callable;
 
 import java.util.List;
 import java.util.concurrent.Callable;
 
-public class CheckTask implements Callable<String> {
+public class CheckTaskCallable implements Callable<String> {
 
     private List<String> workData;
 
-    public CheckTask(List<String> workData) {
+    public CheckTaskCallable(List<String> workData) {
         this.workData = workData;
     }
 

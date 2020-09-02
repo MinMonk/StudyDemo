@@ -1,0 +1,29 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- 2020-05-15 17:41:43 -->
+<!-- Generated file version: V0.1 -->
+<!-- Copyright (c) 2004-2020  -->
+<schema targetNamespace="http://soa.haid.com/MsgHeader"
+	xmlns:tns="http://soa.haid.com/MsgHeader"
+	elementFormDefault="qualified"
+	attributeFormDefault="qualified"
+	xmlns="http://www.w3.org/2001/XMLSchema">
+    <complexType name="MSGHEADER">
+     <sequence>
+       <element name="SOURCESYSTEMID" type="string"  />
+       <element name="SOURCESYSTEMNAME" type="string"  />
+       <element name="TOKEN" type="string"  />
+       <element name="USER_ID" type="decimal" nillable="true" />
+       <element name="USER_NAME" type="string" nillable="true" />
+       <element name="USER_PASSWD" type="string" nillable="true" />
+       <element name="SUBMIT_DATE" type="dateTime" nillable="true" />
+       <element name="PAGE_SIZE" type="decimal" nillable="true" />
+       <element name="CURRENT_PAGE" type="decimal" nillable="true" />
+       <element name="TOTAL_RECORD" type="decimal" nillable="true" />
+       <element name="PROVINCE_CODE" type="string" nillable="true" />
+       <element name="ROUTE_CODE" type="string" nillable="true" />
+       <element name="TRACE_ID" type="string" nillable="true" />
+       <element name="RESERVED_1" type="string" nillable="true" />
+       <element name="RESERVED_2" type="string" nillable="true" />
+     </sequence>
+    </complexType>
+</schema> 

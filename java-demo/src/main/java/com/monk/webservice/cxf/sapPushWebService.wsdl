@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions name="sapPushWebServiceImplService" targetNamespace="http://server.qywxWSServer.haid.com.cn/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://server.qywxWSServer.haid.com.cn/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+<xs:schema elementFormDefault="unqualified" targetNamespace="http://server.qywxWSServer.haid.com.cn/" version="1.0" xmlns:tns="http://server.qywxWSServer.haid.com.cn/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:element name="sappushwebservice" type="tns:sappushwebservice"/>
+<xs:element name="sappushwebserviceResponse" type="tns:sappushwebserviceResponse"/>
+<xs:complexType name="sappushwebservice">
+<xs:sequence>
+<xs:element minOccurs="0" name="pushaddress" type="xs:string"/>
+<xs:element minOccurs="0" name="touser" type="xs:string"/>
+<xs:element minOccurs="0" name="toparty" type="xs:string"/>
+<xs:element minOccurs="0" name="totag" type="xs:string"/>
+<xs:element minOccurs="0" name="msgtype" type="xs:string"/>
+<xs:element minOccurs="0" name="textcontent" type="xs:string"/>
+<xs:element minOccurs="0" name="textcardtitle" type="xs:string"/>
+<xs:element minOccurs="0" name="textcarddescription" type="xs:string"/>
+<xs:element minOccurs="0" name="textcardurl" type="xs:string"/>
+<xs:element minOccurs="0" name="textcardbtntxt" type="xs:string"/>
+<xs:element minOccurs="0" name="safe" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="sappushwebserviceResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="sappushwebserviceResponse">
+    <wsdl:part element="tns:sappushwebserviceResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="sappushwebservice">
+    <wsdl:part element="tns:sappushwebservice" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="sapPushWebService">
+    <wsdl:operation name="sappushwebservice">
+      <wsdl:input message="tns:sappushwebservice" name="sappushwebservice">
+    </wsdl:input>
+      <wsdl:output message="tns:sappushwebserviceResponse" name="sappushwebserviceResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="sapPushWebServiceImplServiceSoapBinding" type="tns:sapPushWebService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="sappushwebservice">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="sappushwebservice">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="sappushwebserviceResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="sapPushWebServiceImplService">
+    <wsdl:port binding="tns:sapPushWebServiceImplServiceSoapBinding" name="sapPushWebServiceImplPort">
+      <soap:address location="http://qy.haid.com.cn/qywxWSServer/webservice/sapPushWebService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

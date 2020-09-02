@@ -1,4 +1,4 @@
-package com.monk.demo;
+package com.monk.demo.callable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +57,7 @@ public class ManyThread {
                     end = size;
                 }
                 List<String> workData = dataList.subList(j * batchSize, end);
-                CheckTask callable = new CheckTask(workData);
+                CheckTaskCallable callable = new CheckTaskCallable(workData);
                 runnableList.add(callable);
             }
             List<Future<String>> results = executorService.invokeAll(runnableList);

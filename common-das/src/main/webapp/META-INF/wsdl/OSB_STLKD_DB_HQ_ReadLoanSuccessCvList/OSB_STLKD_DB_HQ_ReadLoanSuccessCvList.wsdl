@@ -1,0 +1,45 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!-- 2020-05-15 17:41:56 -->
+<!-- Generated file version: V0.1 -->
+<!-- Copyright (c) 2004-2020  -->
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://soa.haid.com/OSB_STLKD_DB_HQ_ReadLoanSuccessCvList"
+	name="OSB_STLKD_DB_HQ_ReadLoanSuccessCvList"
+	targetNamespace="http://soa.haid.com/OSB_STLKD_DB_HQ_ReadLoanSuccessCvList">
+		
+	<wsdl:types>
+		<schema xmlns="http://www.w3.org/2001/XMLSchema">
+			<import namespace="http://soa.haid.com/OSB_STLKD_DB_HQ_ReadLoanSuccessCvList" schemaLocation="OSB_STLKD_DB_HQ_ReadLoanSuccessCvList.xsd"/>
+		</schema>
+	</wsdl:types>
+	<wsdl:message name="OSB_STLKD_DB_HQ_ReadLoanSuccessCvListRequestMessage">
+		<wsdl:part name="payload" element="tns:InputParameters"/>
+	</wsdl:message>
+	<wsdl:message name="OSB_STLKD_DB_HQ_ReadLoanSuccessCvListResponseMessage">
+		<wsdl:part name="payload" element="tns:OutputParameters"/>
+	</wsdl:message>
+	<wsdl:portType name="OSB_STLKD_DB_HQ_ReadLoanSuccessCvList">
+		<wsdl:operation name="process">
+			<wsdl:input message="tns:OSB_STLKD_DB_HQ_ReadLoanSuccessCvListRequestMessage"/>
+			<wsdl:output message="tns:OSB_STLKD_DB_HQ_ReadLoanSuccessCvListResponseMessage"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="OSB_STLKD_DB_HQ_ReadLoanSuccessCvListBinding" type="tns:OSB_STLKD_DB_HQ_ReadLoanSuccessCvList">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="process">
+			<soap:operation style="document" soapAction="process"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	 </wsdl:binding>
+	<wsdl:service name="OSB_STLKD_DB_HQ_ReadLoanSuccessCvList">
+		<wsdl:port name="OSB_STLKD_DB_HQ_ReadLoanSuccessCvListPort" binding="tns:OSB_STLKD_DB_HQ_ReadLoanSuccessCvListBinding">
+			<soap:address location="http://localhost:8080/OSB_STLKD_DB_HQ_ReadLoanSuccessCvList"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>
