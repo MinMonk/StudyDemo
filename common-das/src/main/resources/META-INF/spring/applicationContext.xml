@@ -1,31 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:task="http://www.springframework.org/schema/task"
-	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 			http://www.springframework.org/schema/beans/spring-beans-4.0.xsd  
 			http://www.springframework.org/schema/context 
 			http://www.springframework.org/schema/context/spring-context-4.0.xsd 
 			http://www.springframework.org/schema/tx 
-			http://www.springframework.org/schema/tx/spring-tx-4.0.xsd 
-			http://www.springframework.org/schema/task 
-			http://www.springframework.org/schema/task/spring-task-4.0.xsd
-			http://www.springframework.org/schema/util  
-      		http://www.springframework.org/schema/util/spring-util-4.0.xsd">
+			http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
 
 	<context:property-placeholder location="classpath*:META-INF/spring/*.properties" />
 
-	<!-- 用于持有ApplicationContext,可以使用SpringContextHolder.getBean('xxxx')的静态方法得到spring 
+	<!-- 用于持有ApplicatioSpringContextHoldernContext,可以使用SpringContextHolder.getBean('xxxx')的静态方法得到spring
 		bean对象 -->
-	<bean class="com.vispractice.soa.common.factory.SpringContextHolder"
+	<bean class="com.monk.commondas.common.SpringContextHolder"
 		lazy-init="false" />
 
 	<!-- <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
 		<property name="jndiName">
-			海大dev环境数据源JNDI
-			<value>Haid_STLKD_Data_Source</value>
-			
 			公司128环境数据源JNDI
 			<value>jdbc/hd_das</value>
 		</property>
@@ -84,10 +76,6 @@
 	<tx:annotation-driven transaction-manager="transactionManager" />
 	<!-- Activates scanning of @Autowired -->
 	<context:annotation-config />
-	<context:component-scan base-package="com.vispractice.soa">
-	</context:component-scan>
-	<context:component-scan base-package="com.cmcc.soa">
-	</context:component-scan>
-	<context:component-scan base-package="com.haida.soa">
+	<context:component-scan base-package="com.monk.commondas">
 	</context:component-scan>
 </beans>
