@@ -1,10 +1,8 @@
-package com.monk.aqs;
-
-import java.util.concurrent.TimeUnit;
+package com.monk.aqs.lock;
 
 public class AqsTest2 {
 
-    private MyLock lock = new MyLock();
+    private AqsTest.MyLock lock = new AqsTest.MyLock();
 
     private void a(){
         lock.lock();
