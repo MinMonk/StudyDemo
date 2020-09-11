@@ -1,7 +1,6 @@
-package com.monk.aqs;
+package com.monk.aqs.lock;
 
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class ReentrantLockDemo {
 

@@ -1,4 +1,4 @@
-package com.monk.aqs;
+package com.monk.aqs.lock;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantReadWriteLock;

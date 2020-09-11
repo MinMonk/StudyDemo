@@ -1,4 +1,4 @@
-package com.monk.aqs;
+package com.monk.demo;
 
 import java.util.Random;
 import java.util.concurrent.CyclicBarrier;
