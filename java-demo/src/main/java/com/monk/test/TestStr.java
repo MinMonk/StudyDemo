@@ -20,6 +20,13 @@ import com.predic8.wstool.creator.SOARequestCreator;
 
 import groovy.xml.MarkupBuilder;
 
+/**
+ * API地址：http://www.membrane-soa.org/soa-model/api-doc/1.4/groovydoc/index.html
+ *
+ * @author Monk
+ * @version V1.0
+ * @date 2020年9月11日 下午6:27:17
+ */
 public class TestStr {
     
     private static final Logger logger = LoggerFactory.getLogger(TestStr.class);
