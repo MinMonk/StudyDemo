@@ -188,7 +188,31 @@
 			<artifactId>webapi-parser</artifactId>
 			<version>0.5.0</version>
 		</dependency>
-
+		<dependency>
+		    <groupId>org.apache.zookeeper</groupId>
+		    <artifactId>zookeeper</artifactId>
+		    <version>3.4.13</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.101tec/zkclient -->
+		<dependency>
+			<groupId>com.101tec</groupId>
+			<artifactId>zkclient</artifactId>
+			<version>0.10</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.curator/curator-recipes -->
+		<dependency>
+			<groupId>org.apache.curator</groupId>
+			<artifactId>curator-recipes</artifactId>
+			<version>4.0.1</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/com.predic8/soa-model-core -->
+		<dependency>
+		    <groupId>com.predic8</groupId>
+		    <artifactId>soa-model-core</artifactId>
+		    <version>1.6.0</version>
+		</dependency>
+		
 	</dependencies>
 
 	<repositories>
