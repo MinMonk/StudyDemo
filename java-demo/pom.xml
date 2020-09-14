@@ -176,8 +176,12 @@
 			<artifactId>jackson-mapper-asl</artifactId>
 			<version>1.9.2</version>
 		</dependency>
-
-
+		<!-- https://mvnrepository.com/artifact/com.predic8/soa-model-core -->
+		<dependency>
+		    <groupId>com.predic8</groupId>
+		    <artifactId>soa-model-core</artifactId>
+		    <version>1.6.0</version>
+		</dependency>
 	</dependencies>
 
 </project>
