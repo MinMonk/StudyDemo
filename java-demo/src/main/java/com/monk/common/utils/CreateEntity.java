@@ -33,7 +33,7 @@ public class CreateEntity {
     private static Logger logger = LoggerFactory.getLogger(CreateEntity.class);
     
     public static void main(String[] args) {
-        String tableName = "SOA_ESB_DATA_OBJECT_FIELD";
+        String tableName = "SOA_ESB_DBADAPTER_MIGRATE_DS";
         String filePath = "D:\\entity";
         String tableType = "";
         Connection conn = JdbcUtils.getConnection();
@@ -41,7 +41,7 @@ public class CreateEntity {
         try {
             if (tableName.contains(",")) {
                 for (String str : tableName.split(",")) {
-                    generateJavaEntity(conn, str.toUpperCase(), filePath, tableType);
+                    generateJavaEntity(conn, str.trim().toUpperCase(), filePath, tableType);
                     logger.info("===============================================================");
                 }
             } else {
