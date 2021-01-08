@@ -176,62 +176,12 @@
 			<artifactId>jackson-mapper-asl</artifactId>
 			<version>1.9.2</version>
 		</dependency>
-
-		<dependency>
-			<groupId>org.raml</groupId>
-			<artifactId>raml-parser-2</artifactId>
-			<version>${raml-parser-version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.raml</groupId>
-			<artifactId>webapi-parser</artifactId>
-			<version>0.5.0</version>
-		</dependency>
-		<dependency>
-		    <groupId>org.apache.zookeeper</groupId>
-		    <artifactId>zookeeper</artifactId>
-		    <version>3.4.13</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.101tec/zkclient -->
-		<dependency>
-			<groupId>com.101tec</groupId>
-			<artifactId>zkclient</artifactId>
-			<version>0.10</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.curator/curator-recipes -->
-		<dependency>
-			<groupId>org.apache.curator</groupId>
-			<artifactId>curator-recipes</artifactId>
-			<version>4.0.1</version>
-		</dependency>
-		
 		<!-- https://mvnrepository.com/artifact/com.predic8/soa-model-core -->
 		<dependency>
 		    <groupId>com.predic8</groupId>
 		    <artifactId>soa-model-core</artifactId>
 		    <version>1.6.0</version>
 		</dependency>
-		
 	</dependencies>
-
-	<repositories>
-		<repository>
-			<id>RamlParserReleases</id>
-			<url>https://repository.mulesoft.org/nexus/content/repositories/snapshots/</url>
-		</repository>
-		<repository>
-			<id>MuleSoftReleases</id>
-			<url>https://repository-master.mulesoft.org/nexus/content/repositories/releases</url>
-		</repository>
-		<repository>
-			<id>jitpack.io</id>
-			<url>https://jitpack.io</url>
-		</repository>
-		<repository>
-			<id>SonatypeSnapshots</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-		</repository>
-	</repositories>
 
 </project>
