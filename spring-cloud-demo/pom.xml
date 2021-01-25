@@ -10,6 +10,9 @@
   <version>1.0-SNAPSHOT</version>
   <modules>
     <module>eureka-server3000</module>
+    <module>eureka-server3001</module>
+      <module>eureka-server3002</module>
+    <module>user</module>
   </modules>
 
   <name>spring-cloud-demo</name>
