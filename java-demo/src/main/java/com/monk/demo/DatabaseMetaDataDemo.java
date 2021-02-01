@@ -9,6 +9,7 @@ package com.monk.demo;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -119,6 +120,10 @@ public class DatabaseMetaDataDemo {
             DatabaseMetaData dbmd = conn.getMetaData();
             rs = dbmd.getColumns(null, "CSBDEVW", tableNamePattern.toUpperCase(), "%");
             List<Map<String, Object>> tempList = new ArrayList<Map<String, Object>>();
+			ResultSetMetaData meta = rs.getMetaData();
+            for(int i = 0; i < meta.getColumnCount(); i++) {
+                System.out.println(meta.getColumnName(i) + ":" + rs.getObject(i));
+            }
             while(rs.next()) {
                 Map<String, Object> map = new HashMap<String, Object>();
                 map.put("COLUMN_NAME", rs.getString("COLUMN_NAME"));

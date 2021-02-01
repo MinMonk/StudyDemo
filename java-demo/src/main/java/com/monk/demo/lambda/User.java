@@ -3,7 +3,7 @@
  * 版权： Copyright 2017-2022 CMCC All Rights Reserved.
  * 描述： ESB管理系统
  */
-package com.monk.demo;
+package com.monk.demo.lambda;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
@@ -112,6 +112,8 @@ public class User{
         System.out.println("==========sorted============");
         userList.stream().filter(distinctByKey(o -> o.getId())).sorted(Comparator.comparing(User::getId).reversed()).forEach(System.out::println);
         System.out.println("==========to map============");
+        userList.stream().collect(Collectors.toMap(User::getId, User::getName,
+                (oldValue, newValue) -> newValue)).forEach((key, value) -> System.out.println(key + "=" + value));
         userList.stream().collect(Collectors.toMap(User::getId, User::getName,
                 (oldValue, newValue) -> newValue)).forEach((key, value) -> System.out.println(key + "=" + value));
 
