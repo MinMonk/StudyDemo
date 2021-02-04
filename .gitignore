@@ -41,3 +41,8 @@ target/
 #忽略所有.iml文件
 *.iml
 .DS_Store
+#忽略eclipse的文件
+.project
+.classpath
+.settings/*
+
