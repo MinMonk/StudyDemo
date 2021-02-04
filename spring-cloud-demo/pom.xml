@@ -13,6 +13,10 @@
     <module>eureka-server3001</module>
       <module>eureka-server3002</module>
     <module>user</module>
+      <module>power</module>
+      <module>power1</module>
+    <module>order</module>
+      <module>order1</module>
   </modules>
 
   <name>spring-cloud-demo</name>
