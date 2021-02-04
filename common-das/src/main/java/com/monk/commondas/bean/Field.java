@@ -26,6 +26,9 @@ public class Field {
 
     @XmlElement(name = "DEFAULT_VALUE", required = false, nillable = true)
     private String defaultValue;
+    
+    @XmlElement(name = "IS_REQUIRE", required = false, nillable = true)
+    private Boolean isRequire;
 
     @XmlElement(name = "IS_PRECISE", required = false, nillable = true)
     private Boolean isPrecise;
@@ -41,6 +44,9 @@ public class Field {
 
     @XmlElement(name = "IS_PRIMARY", required = false, nillable = true)
     private Boolean isPrimary;
+    
+    @XmlElement(name = "IS_IDENTITY", required = false, nillable = true)
+    private Boolean isIdentity;
 
     public String getFieldName() {
         return fieldName;
@@ -89,6 +95,14 @@ public class Field {
     public void setDefaultValue(String defaultValue) {
         this.defaultValue = defaultValue;
     }
+    
+    public Boolean getRequire() {
+        return isRequire;
+    }
+    
+    public void setRequire(Boolean require) {
+        this.isRequire = require;
+    }
 
     public Boolean getPrecise() {
         return isPrecise;
@@ -128,6 +142,14 @@ public class Field {
 
     public void setPrimary(Boolean primary) {
         isPrimary = primary;
+    }
+    
+    public Boolean getIdentity() {
+        return isIdentity;
+    }
+
+    public void setIdentity(Boolean identity) {
+        isIdentity = identity;
     }
 
     @Override

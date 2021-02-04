@@ -36,6 +36,12 @@ public class ImportProcessor extends AbstractDASProcessor {
     private static final Logger logger = LoggerFactory.getLogger(ImportProcessor.class);
 
     /**
+     * 操作类型：插入/更新
+     */
+    private static final String OPERRATION_INSERT = "INSERT";
+    private static final String OPERRATION_UPDATE = "UPDATE";
+
+    /**
      * 构造方法
      * 
      * @param configStr
@@ -172,8 +178,10 @@ public class ImportProcessor extends AbstractDASProcessor {
                 JSONObject childFieldValue = childArray.getJSONObject(j);
                 Object childValue = childFieldValue.get(childFieldName);
                 if (!parentFieldValue.equals(childValue)) {
-                    String msg = String.format("The 【%s.%s】(value:%s) attribute of the slave table is not equal to the 【%s.%s】(value:%s) attribute of the master table",
-                            new Object[] { childElementName, childFieldName, childValue, parentElementName, parentFieldName, parentFieldValue });
+                    String msg = String.format(
+                            "The 【%s.%s】(value:%s) attribute of the slave table is not equal to the 【%s.%s】(value:%s) attribute of the master table",
+                            new Object[] { childElementName, childFieldName, childValue, parentElementName,
+                                    parentFieldName, parentFieldValue });
                     logger.error("{}", msg);
                     throw new FieldIllegalException(msg);
                 }
@@ -182,8 +190,10 @@ public class ImportProcessor extends AbstractDASProcessor {
             JSONObject child = (JSONObject) childElementValue;
             Object childValue = child.get(childFieldName);
             if (!parentFieldValue.equals(childValue)) {
-                String msg = String.format("The 【%s.%s】(value:%s) attribute of the slave table is not equal to the 【%s.%s】(value:%s) attribute of the master table",
-                        new Object[] { childElementName, childFieldName, childValue, parentElementName, parentFieldName, parentFieldValue });
+                String msg = String.format(
+                        "The 【%s.%s】(value:%s) attribute of the slave table is not equal to the 【%s.%s】(value:%s) attribute of the master table",
+                        new Object[] { childElementName, childFieldName, childValue, parentElementName,
+                                parentFieldName, parentFieldValue });
                 logger.error("{}", msg);
                 throw new FieldIllegalException(msg);
             }
@@ -212,8 +222,13 @@ public class ImportProcessor extends AbstractDASProcessor {
             for (int i = 0; i < jsonArray.size(); i++) {
                 JSONObject jsonObj = jsonArray.getJSONObject(i);
                 Object value = jsonObj.get(fieldName);
-                value = (null == value || StringUtils.isBlank(String.valueOf(value))) ? field.getDefaultValue()
-                        : value;
+
+                if (null == value || StringUtils.isBlank(String.valueOf(value))) {
+                    if (null == field.getRequire() || field.getRequire()) {
+                        value = field.getDefaultValue();
+                    }
+                }
+
                 DasUtil.validateFieldValue(table.getEntityName(), field, value);
 
                 // 校验从表
@@ -222,8 +237,12 @@ public class ImportProcessor extends AbstractDASProcessor {
         } else {
             Object value = ((JSONObject) object).get(fieldName);
 
-            value = (null == value || StringUtils.isBlank(String.valueOf(value))) ? field.getDefaultValue()
-                    : value;
+            if (null == value || StringUtils.isBlank(String.valueOf(value))) {
+                if (null == field.getRequire() || field.getRequire()) {
+                    value = field.getDefaultValue();
+                }
+            }
+
             DasUtil.validateFieldValue(table.getEntityName(), field, value);
 
             // 校验从表
@@ -376,7 +395,7 @@ public class ImportProcessor extends AbstractDASProcessor {
             logger.warn("{}'s insert sql is empty.", config.getTableName());
             return;
         }
-        List<Object> params = buildPlaceholderValues(config, parentConfig, object, parentObject);
+        List<Object> params = buildPlaceholderValues(config, parentConfig, object, parentObject, OPERRATION_INSERT);
         try {
             logger.info("insert sql:[{}], params:{}", insertSql, params.toArray());
             DasJdbcUtil.executeBatchNativeSql(conn, insertSql, params.toArray());
@@ -403,9 +422,10 @@ public class ImportProcessor extends AbstractDASProcessor {
      * @date 2020年8月15日 上午11:54:46
      */
     private List<Object> buildPlaceholderValues(TableConfig config, TableConfig parentConfig, JSONObject object,
-            JSONObject parentObject) {
+            JSONObject parentObject, String type) {
         List<Object> params = new ArrayList<Object>();
-        List<Field> fieldList = config.getImportList();
+        List<Field> fieldList = mergeUpdateField(config, type);
+
         if (CollectionUtils.isNotEmpty(fieldList)) {
 
             //List<Map<String, String>> foreignKeyList = config.getForeignKeys();
@@ -431,14 +451,19 @@ public class ImportProcessor extends AbstractDASProcessor {
                 String columnType = field.getColumnType();
                 if (columnType.toUpperCase().contains("DATE")) {
                     String fieldConstraint = field.getFieldConstraint();
-                    if (DasConstant.DEFAULT_FIELD_CONSTRAINT.equals(fieldConstraint)) {
-                        String str = String.valueOf(value).replaceAll("[- :]", "");
-                        if(str.length() < 14) {
-                            value = String.format("%-14s", str).replace(' ', '0');
-                        }else {
-                            value = str;
+                    if (DasConstant.DATABASE_TYPE_SQLSERVER.equalsIgnoreCase(dataSourceType)) {
+                        fieldConstraint = GLOBAL_JAVA_DATE_FORMART;
+                    } else {
+                        if (DasConstant.DEFAULT_FIELD_CONSTRAINT.equals(fieldConstraint)) {
+                            String str = String.valueOf(value).replaceAll("[- :]", "");
+                            if (str.length() < 14) {
+                                value = String.format("%-14s", str).replace(' ', '0');
+                            } else {
+                                value = str;
+                            }
                         }
                     }
+
                     SimpleDateFormat sdf = new SimpleDateFormat(fieldConstraint);
                     Date date = null;
                     try {
@@ -472,16 +497,59 @@ public class ImportProcessor extends AbstractDASProcessor {
      * @date 2020年8月15日 上午11:53:42
      */
     private String buildUpdateSql(TableConfig config) {
-        List<Field> fieldList = config.getImportList();
+        // update by 2020-12-02 update时，set后的字段应该过滤掉主键字段
+        List<Field> updateFieldList = mergeUpdateField(config, OPERRATION_UPDATE);
         StringBuffer updateSql = new StringBuffer();
-        if (CollectionUtils.isNotEmpty(fieldList)) {
+        if (CollectionUtils.isNotEmpty(updateFieldList)) {
             updateSql.append("UPDATE ").append(config.getTableName()).append(" ");
-            String updateColumns = buildUpdateColumns(fieldList);
+            String updateColumns = buildUpdateColumns(updateFieldList);
             if (StringUtils.isNotBlank(updateColumns)) {
                 updateSql.append(updateColumns);
             }
         }
         return updateSql.toString();
+    }
+
+    /**
+     * 合并要更新的字段，去掉主键
+     * 
+     * @param config
+     *            表配置信息
+     * @return 合并后的更新字段集合
+     * @author Monk
+     * @date 2020年12月2日 上午9:25:59
+     */
+    private List<Field> mergeUpdateField(TableConfig config, String type) {
+        List<Field> resultList = new ArrayList<Field>();
+        List<Field> importFieldList = config.getImportList();
+        List<Field> primaryFieldList = config.getPrimaryKeys();
+
+        if (CollectionUtils.isNotEmpty(importFieldList)) {
+            for (Field importField : importFieldList) {
+                // sqlserver数据库的自增长字段不支持更新/插入，会直接报错，mysql的自增长字段支持更新/插入
+                if (DasConstant.DATABASE_TYPE_SQLSERVER.equalsIgnoreCase(dataSourceType)
+                        && importField.getIdentity()) {
+                    continue;
+                }
+
+                // 更新的时候不仅仅要剔除自增长字段，还要排除主键字段，更新主键字段没有意义
+                if (OPERRATION_UPDATE.equals(type) && CollectionUtils.isNotEmpty(primaryFieldList)) {
+                    boolean flag = false;
+                    for (Field primaryField : primaryFieldList) {
+                        if (importField.getFieldName().equals(primaryField.getFieldName())) {
+                            flag = true;
+                            break;
+                        }
+                    }
+                    if(!flag) {
+                        resultList.add(importField);
+                    }
+                }else if (OPERRATION_INSERT.equals(type)) {
+                    resultList.add(importField);
+                }
+            }
+        }
+        return resultList;
     }
 
     /**
@@ -525,7 +593,7 @@ public class ImportProcessor extends AbstractDASProcessor {
      */
     private String buildInsertSql(TableConfig config) {
         String insertSql = "INSERT INTO %s (%s) VALUES (%s)";
-        List<Field> fieldList = config.getImportList();
+        List<Field> fieldList = mergeUpdateField(config, OPERRATION_INSERT);
         String basicSql = "";
         if (CollectionUtils.isNotEmpty(fieldList)) {
             String importColumns = buildInsertColumns(fieldList);
@@ -605,6 +673,8 @@ public class ImportProcessor extends AbstractDASProcessor {
             } else {
                 result = "?, ";
             }
+        } else {
+            result = "?, ";
         }
         return result;
     }
@@ -633,7 +703,7 @@ public class ImportProcessor extends AbstractDASProcessor {
             return;
         }
         updateSql.append(updateBasicSql);
-        List<Object> params = buildPlaceholderValues(config, parentConfig, jsonObject, parentObject);
+		List<Object> params = buildPlaceholderValues(config, parentConfig, jsonObject, parentObject, OPERRATION_UPDATE);
 
         Map<String, Object> conditionMap = DasUtil.buildWhereCondition(config, parentConfig, jsonObject,
                 parentObject, true);
@@ -678,7 +748,15 @@ public class ImportProcessor extends AbstractDASProcessor {
         selectSql.append(whereSql);
         try {
             logger.info("exist sql:[{}], params:{}", selectSql, params.toArray());
-            Long num = (Long) DasJdbcUtil.queryUniqueResult(conn, selectSql.toString(), params.toArray());
+            Object number = DasJdbcUtil.queryUniqueResult(conn, selectSql.toString(), params.toArray());
+            int num = 0;
+            if (number instanceof Long) {
+                // oracle Mysql数据库查询返回的数据类型是Long
+                num = ((Long) number).intValue();
+            } else if (number instanceof Integer) {
+                // sqlserver数据库查询返回的数据类型是Integer，直接强转任何一个类型都会在不通的数据源类型下会报错
+                num = ((Integer) number).intValue();
+            }
             if (num > 0) {
                 return true;
             } else {
