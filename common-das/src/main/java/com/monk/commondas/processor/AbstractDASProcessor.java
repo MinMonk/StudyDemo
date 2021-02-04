@@ -2,6 +2,7 @@ package com.monk.commondas.processor;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.monk.commondas.OutputParameters;
 import com.monk.commondas.bean.DataObject;
 import com.monk.commondas.bean.Field;
@@ -322,6 +323,7 @@ public abstract class AbstractDASProcessor {
 
         // 校验数据源是否可用
         if (!verifyDataSource(dataConfig.getDataSourceName())) {
+            logger.error("The datasource [{}] is invalid.");
             output.setBIZSERVICEFLAG(DasConstant.FAILED_FLAG);
             output.setBIZRETURNCODE(BIZErrorCode.BIZ_ERROR.getCode());
             output.setBIZRETURNMESSAGE(
@@ -333,6 +335,14 @@ public abstract class AbstractDASProcessor {
         JSONObject jsonObject = null;
         try {
             jsonObject = JSON.parseObject(inputJson);
+            if(null == jsonObject) {
+                logger.error("The inputJson is null.");
+                output.setBIZSERVICEFLAG(DasConstant.FAILED_FLAG);
+                output.setBIZRETURNCODE(BIZErrorCode.BIZ_ERROR.getCode());
+                output.setBIZRETURNMESSAGE(
+                        BIZErrorCode.BIZ_ERROR.getMsg() + "：入参JSON对象不可为空");
+                return output;
+            }
         } catch (Exception e) {
             logger.error("Failed to parse json object. {}", e);
             output.setBIZSERVICEFLAG(DasConstant.FAILED_FLAG);
@@ -378,7 +388,10 @@ public abstract class AbstractDASProcessor {
         output.setBIZSERVICEFLAG(DasConstant.SUCCESS_FLAG);
         output.setBIZRETURNMESSAGE(operationType.getTypeCn() + "成功");
         output.setTOTALRECORD(new BigDecimal(executeResult.size()));
-        output.setOUTPUTJSON(JSON.toJSONString(executeResult));
+        output.setOUTPUTJSON(JSON.toJSONStringWithDateFormat(executeResult, "yyyy-MM-dd HH:mm:ss", new SerializerFeature[] {
+                SerializerFeature.WriteNullStringAsEmpty, SerializerFeature.WriteMapNullValue, 
+                SerializerFeature.DisableCircularReferenceDetect,
+                SerializerFeature.WriteNullListAsEmpty}));
 
         return output;
     }
