@@ -99,7 +99,7 @@ public class CustomApplicationContext {
                 if(temp.getName().endsWith(".class")){
                     String className = temp.getAbsolutePath();
                     className = className.substring(className.indexOf("com"), className.indexOf(".class"));
-                    className = className.replace("\\", ".");
+                    className = className.replace(File.separator, ".");
                     logger.info("className:{}", className);
                     Class clazz = null;
                     try {
