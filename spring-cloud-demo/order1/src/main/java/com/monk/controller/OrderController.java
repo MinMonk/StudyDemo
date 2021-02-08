@@ -1,4 +1,4 @@
-package monk.controller;
+package com.monk.controller;
 
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +14,7 @@ public class OrderController {
     public Map<String, Object> getOrder() {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("code", "200");
-        result.put("data", "order");
+        result.put("data", "order1");
         return result;
     }
 }

@@ -1,7 +1,7 @@
 package com.monk;
 
-import com.rule.OrderConfig;
-import com.rule.PowerConfig;
+import com.ruleconfig.OrderConfig;
+import com.ruleconfig.PowerConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;

@@ -20,8 +20,8 @@ public class UserConfig {
      * 自定义ribbon的负载均衡策略
      * @return
      */
-//    @Bean
-//    public IRule iRule(){
-//        return new RandomRule();
-//    }
+   @Bean
+   public IRule iRule(){
+       return new RandomRule();
+   }
 }
