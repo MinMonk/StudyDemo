@@ -44,9 +44,13 @@ public class CustomRule extends AbstractLoadBalancerRule {
                 return null;
             }
 
-            int index = chooseRandomInt(serverCount);
-            lastIndex = index;
-            logger.info("最终随机到的下标:[{}]", lastIndex);
+            int index = 0;
+            if(serverCount > 1){
+                index = chooseRandomInt(serverCount);
+                lastIndex = index;
+                logger.info("服务器数量:[{}], 最终随机到的下标:[{}]", serverCount, lastIndex);
+            }
+
             server = upList.get(index);
 
             if (server == null) {
@@ -71,16 +75,16 @@ public class CustomRule extends AbstractLoadBalancerRule {
      */
     protected int chooseRandomInt(int serverCount) {
         currIndex = random.nextInt(serverCount);
-        logger.info("当前下标[{}]", currIndex);
+        logger.debug("当前下标[{}]", currIndex);
         if(currIndex == skipIndex){
             do{
                 currIndex = random.nextInt(serverCount);
             }while(currIndex == skipIndex);
-            logger.info("跳过之后的下标:[{}]", currIndex);
+            logger.debug("跳过之后的下标:[{}]", currIndex);
         }
 
         if(currIndex == lastIndex){
-            logger.info("需要跳过的下标:[{}]", currIndex);
+            logger.debug("需要跳过的下标:[{}]", currIndex);
             skipIndex = currIndex;
         }else{
             skipIndex = -1;
