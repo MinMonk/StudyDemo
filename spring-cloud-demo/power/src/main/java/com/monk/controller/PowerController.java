@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 @RestController
 public class PowerController {
@@ -19,11 +18,12 @@ public class PowerController {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("code", "200");
         result.put("data", "power");
-        if(null == name){
-            String msg = "测试服务降级主动抛出的异常";
-            logger.info(msg);
-            throw new RuntimeException(msg);
-        }
+
+        // if(null == name){
+        //     String msg = "测试服务降级主动抛出的异常";
+        //     logger.info(msg);
+        //     throw new RuntimeException(msg);
+        // }
 
         // try {
         //     long ms = 1000*10;

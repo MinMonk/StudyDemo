@@ -18,6 +18,7 @@
         <module>power2</module>
         <module>order</module>
         <module>order1</module>
+        <module>zuul</module>
     </modules>
 
     <name>spring-cloud-demo</name>
