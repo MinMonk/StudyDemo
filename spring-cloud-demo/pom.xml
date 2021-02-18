@@ -19,6 +19,8 @@
         <module>order</module>
         <module>order1</module>
         <module>zuul</module>
+		<module>zuul-server8001</module>
+		<module>zuul-server8002</module>
     </modules>
 
     <name>spring-cloud-demo</name>
