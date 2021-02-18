@@ -1,4 +1,4 @@
-# Compiled class file
+﻿# Compiled class file
 *.class
 
 # Log file
@@ -44,5 +44,6 @@ target/
 #忽略eclipse的文件
 .project
 .classpath
+.settings
 .settings/*
 
