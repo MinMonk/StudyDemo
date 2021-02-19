@@ -21,6 +21,9 @@
         <module>zuul</module>
 		<module>zuul-server8001</module>
 		<module>zuul-server8002</module>
+        <module>hystrix-dashboard</module>
+        <module>config-server9000</module>
+        <module>config-server9001</module>
     </modules>
 
     <name>spring-cloud-demo</name>
