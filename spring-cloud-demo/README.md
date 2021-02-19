@@ -1,5 +1,5 @@
 # spring-cloud-demo
-该工程为spring-cloud的一个学习demo，主要使用的技术Eureka、Ribbon、Hystrix、Zuul、Feign、Hystrix Dashboard、spring-cloud-config
+该工程为spring-cloud的一个学习demo，主要使用到的技术点有Eureka、Ribbon、Hystrix、Zuul、Feign、Hystrix Dashboard、spring-cloud-config
 - Eureka: 注册中心
 - Ribbon: 用于客户端负载均衡
 - Hystrix: 用于服务熔断、降级、限流
@@ -7,6 +7,25 @@
 - Feign: 声明式的WebService客户端，让微服务之间的调用更简单
 - Hystrix Dashboard: Hystrix监控仪表盘
 - spring-cloud-config: 分布式配置中心
+
+****************
+
+## 前言
+1. 本项目中的spring-cloud版本为**Hoxton.SR9**， spring-boot版本为**2.3.5.RELEASE**
+2. 当前demo下的各个集群都是在单机机器下通过不同的端口来模拟的集群，所以微服务多了之后，机器性能就有点吃不消，故后期只启动了单机版的Eureka，如果需要启动
+集群版的Eureka，需要在本机的hosts文件中添加以下内容，Windows环境下的路径`C:\Windows\System32\drivers\etc\hosts`
+
+```bat
+127.0.0.1 eureka3000.com
+127.0.0.1 eureka3001.com
+127.0.0.1 eureka3002.com
+```
+
+至于详细的配置，可以参见eureka-server3000这个Module中的application.yml中的配置说明，这个配置中的注释比较全面。
+> 同理：本学习demo中的任何一个集群环境，都是第一个Module中的注释比较全面，集群中其他Module都是copy第一个Module而来的，后期可能都是直接修改了第一个Module而没有同步到其他Module。
+> 比方说：power微服务集群中，power中的注释就比power*中的注释详细
+
+****************
 
 ## Module简介
 - eureka-server3000: Eureka集群的机器之一，端口为3000
