@@ -44,3 +44,36 @@
 - config-server9000: spring-config配置中心集群的机器之一，端口为9000
 - config-server9001: spring-config配置中心集群的机器之一，端口为9001
 - config-file: spring-cloud-config使用的配置文件（懒得在github上新建一个repository，故就在当前学习demo下新建一个目录当做远程配置仓库）
+
+## Zipkin Server
+### 搭建Zipkin Server
+由于高版本的zipkin已经不支持自定义服务器,[官网](htts://zipkin.io)也建议通过docker的方式启动,故安装好docker之后,执行下面一条命令即可一键搭建zipkin
+`docker run --name zipkin -d -p 9411:9411 openzipkin/zipkin`
+最终界面如下图所示:
+![zipkin-server](./images/zipkin-server.png)
+
+### 集成Zipkin Server
+1. 在需要追踪的微服务pom文件中添加以下依赖
+```xml
+<dependency>
+  <groupId>org.springframework.cloud</groupId>
+  <artifactId>spring-cloud-starter-sleuth</artifactId>
+</dependency>
+<dependency>
+  <groupId>org.springframework.cloud</groupId>
+  <artifactId>spring-cloud-starter-zipkin</artifactId>
+</dependency>
+```
+2. 在对应的application.yml文件中添加以下配置
+```yaml
+spring:
+  zipkin:
+    base-url: http://localhost:9411  #指定Zipkin server地址
+  sleuth:
+    sampler:
+      probability: 1.0  #request采样的数量 默认是0.1 也即是10%  顾名思义 采取10%的请求数据  因为在分布式系统中，数据量可能会非常大，因此采样非常重要。我们示例数据少最好配置为1全采样
+```
+
+### 指定zipkin持计划存储
+`docker run --name zipkin -d -p 9411:9411 -e ES_HOSTS=http://192.168.3.18:9200 -e STORAGE_TYPE=elasticsearch openzipkin/zipkin`
+`docker run --name elasticsearch -d -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" elasticsearch`
