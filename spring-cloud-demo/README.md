@@ -1,5 +1,5 @@
 # spring-cloud-demo
-该工程为spring-cloud的一个学习demo，主要使用到的技术点有Eureka、Ribbon、Hystrix、Zuul、Feign、Hystrix Dashboard、spring-cloud-config
+该工程为spring-cloud的一个学习demo，主要使用到的技术点有Eureka、Ribbon、Hystrix、Zuul、Feign、Hystrix Dashboard、spring-cloud-config、spring-cloud-sleuth、Zipkin
 - Eureka: 注册中心
 - Ribbon: 用于客户端负载均衡
 - Hystrix: 用于服务熔断、降级、限流
@@ -7,6 +7,8 @@
 - Feign: 声明式的WebService客户端，让微服务之间的调用更简单
 - Hystrix Dashboard: Hystrix监控仪表盘
 - spring-cloud-config: 分布式配置中心
+- spring-cloud-sleuth: 微服务链路追踪
+- Zipkin: 图形化链路追踪数据
 
 ****************
 
@@ -44,6 +46,8 @@
 - config-server9000: spring-config配置中心集群的机器之一，端口为9000
 - config-server9001: spring-config配置中心集群的机器之一，端口为9001
 - config-file: spring-cloud-config使用的配置文件（懒得在github上新建一个repository，故就在当前学习demo下新建一个目录当做远程配置仓库）
+- images: 存放readme文档中的引用的截图
+- docker-compose: docker-compose文件夹，存放docker-compose.yml文件。在当前工程中主要存放zipkin-elasticsearch的docker容器文件
 
 ## Zipkin Server
 ### 搭建Zipkin Server
@@ -52,7 +56,10 @@
 最终界面如下图所示:
 ![zipkin-server](./images/zipkin-server.png)
 
-### 集成Zipkin Server
+### 集成内存版Zipkin Server
+
+内存版的zipkin，由于数据是存放在缓存中的，zipkin重启后，数据就会丢失
+
 1. 在需要追踪的微服务pom文件中添加以下依赖
 ```xml
 <dependency>
@@ -74,6 +81,10 @@ spring:
       probability: 1.0  #request采样的数量 默认是0.1 也即是10%  顾名思义 采取10%的请求数据  因为在分布式系统中，数据量可能会非常大，因此采样非常重要。我们示例数据少最好配置为1全采样
 ```
 
-### 指定zipkin持计划存储
-`docker run --name zipkin -d -p 9411:9411 -e ES_HOSTS=http://192.168.3.18:9200 -e STORAGE_TYPE=elasticsearch openzipkin/zipkin`
-`docker run --name elasticsearch -d -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" elasticsearch`
+### 指定zipkin持久化存储
+1. 先创建docker容器之间的网络，不创建单独网络的话，docker容器之间会无法通信，自然监控的链路数据也就无法持久化到elasticsearch中
+2. 执行命令`docker network create --subnet=192.18.0.0/16 mynetwork`创建网络
+3. 在当前工程下的**docker-compose**文件夹下执行`docker-compose up -d`命令，启动Zipkin Server。执行这个命令需要在本机安装了docker-compose，否则就将docker-compose.yml拷贝到装了docker-compose的机器上执行
+4. 修改需要追踪的微服务中的application.yml中**spring.zipkin.base-url=http://192.168.94.200:9411**, 192.168.94.200这个IP是我虚拟机的IP地址，也就是docker-compose的宿主机IP地址
+5. 重启微服务，再次访问微服务即可，数据就会持久化到elasticsearch中了，这个时候重启zipkin，数据也不会丢失了。
+
