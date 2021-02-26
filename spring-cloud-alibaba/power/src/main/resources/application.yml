@@ -1,0 +1,11 @@
+server:
+  port: 6000
+spring:
+  application:
+    name: power
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+        cluster-name: server-power
+        group: group-power
