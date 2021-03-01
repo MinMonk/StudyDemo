@@ -1,5 +1,7 @@
 server:
-  port: 6000
+  port: 8000
+  servlet:
+    context-path:
 spring:
   application:
     name: power
@@ -7,5 +9,6 @@ spring:
     nacos:
       discovery:
         server-addr: localhost:8848
-        cluster-name: server-power
-        group: group-power
+  devtools:
+    restart:
+      enabled: true

@@ -1,5 +1,5 @@
 server:
-  port: 5000
+  port: 8100
 spring:
   application:
     name: user
@@ -7,3 +7,13 @@ spring:
     nacos:
       discovery:
         server-addr: localhost:8848
+  devtools:
+    restart:
+      enabled: true
+hystrix:
+  command:
+    default:
+      execution:
+        circuitBreaker:
+          requestVolumeThreshold: 5   #限流,设置请求失败5次之后开启熔断器(默认:20)
+

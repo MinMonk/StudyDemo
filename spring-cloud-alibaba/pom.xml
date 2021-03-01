@@ -13,6 +13,7 @@
         <module>user</module>
 		<module>power</module>
 		<module>power1</module>
+        <module>nacos-config</module>
     </modules>
 
     <name>spring-cloud-alibaba</name>
