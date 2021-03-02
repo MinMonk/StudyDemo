@@ -1,10 +1,8 @@
 server:
   port: 8000
-  servlet:
-    context-path:
 spring:
   application:
-    name: power
+    name: service-power
   cloud:
     nacos:
       discovery:
@@ -12,3 +10,8 @@ spring:
   devtools:
     restart:
       enabled: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'

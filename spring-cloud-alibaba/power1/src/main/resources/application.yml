@@ -2,10 +2,8 @@ server:
   port: 8001
 spring:
   application:
-    name: power1
+    name: service-power
   cloud:
     nacos:
       discovery:
         server-addr: localhost:8848
-        cluster-name: server-power
-        group: group-power

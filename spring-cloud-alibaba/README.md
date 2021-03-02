@@ -19,3 +19,23 @@ startup.cmd -m standalone
 #### unix
 
 startup -m standalone
+
+### hystrix dashborad
+访问地址：http://localhost:8100/actuator/hystrix.stream
+
+添加依赖
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
+```
+
+添加配置
+```yaml
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+```

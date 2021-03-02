@@ -14,6 +14,7 @@
 		<module>power</module>
 		<module>power1</module>
         <module>nacos-config</module>
+        <module>hystrix-dashboard</module>
     </modules>
 
     <name>spring-cloud-alibaba</name>
