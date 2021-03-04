@@ -7,6 +7,9 @@ spring:
     nacos:
       discovery:
         server-addr: localhost:8848
+    sentinel:
+      transport:
+        dashboard: localhost:8080
   devtools:
     restart:
       enabled: true
@@ -40,4 +43,6 @@ management:
         include: '*'
 feign:
   hystrix:
+    enabled: true
+  sentinel:
     enabled: true

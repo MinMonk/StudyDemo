@@ -1,6 +1,7 @@
 package com.monk.controller;
 
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.monk.feign.service.PowerService;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,7 @@ public class UserController {
 
     @GetMapping("/getPower.do")
     @HystrixCommand(fallbackMethod = "fallbackMethod")
+    @SentinelResource(value = "getPower")
     public Map<String, Object> getPower() {
         Map<String, Object> result = new HashMap<String, Object>();
         result = restTemplate.getForObject(POWER_URL + "/getPower.do", Map.class);
