@@ -7,6 +7,14 @@
 |org.springframework.cloud|spring-boot-dependencies|Hoxton.SR9|
 |com.alibaba.cloud|spring-cloud-alibaba-dependencies|Hoxton.SR9|
 
+## Module简介
+- hystrix-dashboard：Hystrix的监控仪表盘，端口为8090，访问地址: http://localhost:8090/hystrix
+- nacos-config：从Nacos注册中心获取配置的一个demo，端口为8200
+- nacos-server：搭建Nacos-Server的docker-compose脚本，详细参见该目录下的[README文档](./nacos-server/README.md)
+- power：微服务集群（模拟【权限】微服务），端口为8000
+- power1：微服务集群（模拟【权限】微服务），端口为8001
+- user：微服务集群（模拟【用户】微服务），端口为8100
+
 ## Nacos
 官网地址: https://nacos.io/zh-cn/docs/what-is-nacos.html
 
