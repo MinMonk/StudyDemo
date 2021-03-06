@@ -86,6 +86,6 @@ public class PasswordGenerator {
     }
 
     public static void main(String[] args) {
-        System.out.println(new PasswordGenerator(12, 3).generateRandomPassword());
+        System.out.println(new PasswordGenerator(32, 3).generateRandomPassword());
     }
 }
