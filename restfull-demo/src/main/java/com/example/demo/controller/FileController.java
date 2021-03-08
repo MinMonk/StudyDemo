@@ -17,7 +17,7 @@ import java.io.*;
 @Api(value = "文件上传下载测试服务")
 public class FileController {
 
-    private final static String file_folder = "/home/csbapp/restDemo/tempUploadFile";
+    private final static String file_folder = "D:\\apps\\lightcsb\\resource\\restDemo\\tempUploadFile";
 
     public static final Logger logger = LoggerFactory.getLogger(FileController.class);
 
@@ -25,7 +25,13 @@ public class FileController {
     @ApiOperation(value = "上传文件")
     public String uploadFile(MultipartFile multipartFile) throws IOException {
         logger.info("------------" + multipartFile);
-        File file = new File(file_folder, System.currentTimeMillis() + ".txt");
+
+        File targetFileParentDir = new File(file_folder);
+        if(!targetFileParentDir.exists()) {
+            targetFileParentDir.mkdirs();
+        }
+
+        File file = new File(file_folder, multipartFile.getOriginalFilename());
         multipartFile.transferTo(file);
         return file.getAbsolutePath();
     }
