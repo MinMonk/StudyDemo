@@ -2,9 +2,11 @@ package com.monk.controller;
 
 
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
-import com.monk.feign.service.PowerService;
+import com.monk.feign.hystrix.PowerHystrixService;
+import com.monk.feign.sentinel.PowerSentinelService;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -20,7 +22,10 @@ public class UserController {
     public static final String POWER_URL = "http://service-power";
 
     @Autowired
-    private PowerService powerService;
+    private PowerHystrixService powerHystrixService;
+
+    @Autowired
+    private PowerSentinelService powerSentinelService;
 
     @RequestMapping(value = "/echo/{string}", method = RequestMethod.GET)
     public String echo(@PathVariable String string) {
@@ -29,21 +34,28 @@ public class UserController {
 
     @GetMapping("/getPower.do")
     @HystrixCommand(fallbackMethod = "fallbackMethod")
-    @SentinelResource(value = "getPower")
-    public Map<String, Object> getPower() {
+    @SentinelResource(value = "getPower", fallback = "fallbackMethod")
+    public Map<String, Object> getPower(String name) {
         Map<String, Object> result = new HashMap<String, Object>();
-        result = restTemplate.getForObject(POWER_URL + "/getPower.do", Map.class);
+        result = restTemplate.getForObject(POWER_URL + "/getPower.do?name="+name, Map.class);
         return result;
     }
 
-    @GetMapping("/getFeignPower.do")
-    public Map<String, Object> getFeignPower() {
+    @GetMapping("/getHystrixFeignPower.do")
+    public Map<String, Object> getHystrixFeignPower(String name) {
         Map<String, Object> result = new HashMap<String, Object>();
-        result = powerService.getPower();
+        result = powerHystrixService.getPower(name);
         return result;
     }
 
-    private Map<String, Object> fallbackMethod() {
+    @GetMapping("/getSentinelFeignPower.do")
+    public Map<String, Object> getSentinelFeignPower(String name) {
+        Map<String, Object> result = new HashMap<String, Object>();
+        result = powerSentinelService.getPower(name);
+        return result;
+    }
+
+    public Map<String, Object> fallbackMethod(String name) {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("code", "500");
         result.put("data", "默认的降级方法Controler");
